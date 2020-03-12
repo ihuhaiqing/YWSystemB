@@ -17,5 +17,6 @@ class Host(models.Model):
     type = models.CharField('类别',max_length=200)
     env = models.CharField('环境',max_length=200,default='test')
     ins_num = models.IntegerField('实例数量',default='0')
-    deleted = models.BooleanField('是否已删除',default='false')
+    status = models.BooleanField('状态',default=True)
+    deleted = models.BooleanField('是否已删除',default=False)
     created = models.DateTimeField('创建时间',default=timezone.now)
