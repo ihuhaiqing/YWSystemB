@@ -16,5 +16,6 @@ class Host(models.Model):
     password = models.CharField('密码',max_length=200)
     type = models.CharField('类别',max_length=200)
     env = models.CharField('环境',max_length=200,default='test')
+    ins_num = models.IntegerField('实例数量',default='0')
     deleted = models.BooleanField('是否已删除',default='false')
     created = models.DateTimeField('创建时间',default=timezone.now)
