@@ -19,3 +19,11 @@ class Host(models.Model):
     ins_num = models.IntegerField('实例数量',default='0')
     status = models.BooleanField('状态',default=True)
     created = models.DateTimeField('创建时间',default=timezone.now)
+
+
+class Account(models.Model):
+    username = models.CharField('用户名',max_length=200)
+    password = models.CharField('密码',max_length=200)
+    use = models.CharField('用途',max_length=255)
+    created = models.DateTimeField('创建时间',default=timezone.now)
+
