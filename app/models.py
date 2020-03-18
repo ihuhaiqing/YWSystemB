@@ -27,3 +27,27 @@ class Account(models.Model):
     use = models.CharField('用途',max_length=255)
     created = models.DateTimeField('创建时间',default=timezone.now)
 
+
+class Env(models.Model):
+    name = models.CharField('环境名称',max_length=200,unique=True)
+    def __str__(self):
+        return self.name
+
+
+class JavaPackage(models.Model):
+    name = models.CharField('包名',max_length=200,unique=True)
+    def __str__(self):
+        return self.name
+
+
+class Software(models.Model):
+    name = models.CharField('软件名称',max_length=200,unique=True)
+    def __str__(self):
+        return self.name
+
+
+class Project(models.Model):
+    name = models.CharField('项目名称',max_length=200,unique=True)
+    software = models.ManyToManyField(Software)
+    java_package = models.ManyToManyField(JavaPackage, blank=True)
+
