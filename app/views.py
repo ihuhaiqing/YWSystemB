@@ -1,8 +1,8 @@
 # from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
-from app.models import Host,Account,Project
-from app.serializers import HostSerializer,AccountSerialize,ProjectSerializer
+from app.models import Host,Account,Project,Software
+from app.serializers import HostSerializer,AccountSerialize,ProjectSerializer,SoftwareSerializer
 from rest_framework import pagination
 # Create your views here.
 
@@ -44,7 +44,12 @@ class AccountViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class ProjectViewset(viewsets.ModelViewSet):
+class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+
+
+class SoftwareVeiwSet(viewsets.ModelViewSet):
+    queryset = Software.objects.all()
+    serializer_class = SoftwareSerializer
 
