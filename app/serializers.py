@@ -1,4 +1,4 @@
-from app.models import Host,Account,Project,JavaPackage,Software
+from app.models import Host,Account,Project,JavaPackage,Software,ProjectWeb
 from rest_framework import serializers
 
 
@@ -32,3 +32,18 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = '__all__'
+
+
+class ProjectWebSerializer(serializers.ModelSerializer):
+    host = serializers.PrimaryKeyRelatedField(queryset=Host.objects.all(),write_only=True,many=True)
+    class Meta:
+        model = ProjectWeb
+        fields = '__all__'
+
+
+class GetProjectWebSerializer(serializers.ModelSerializer):
+    host = HostSerializer(read_only=True,many=True)
+    class Meta:
+        model = ProjectWeb
+        fields = '__all__'
+

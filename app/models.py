@@ -51,3 +51,16 @@ class Project(models.Model):
     software = models.ManyToManyField(Software)
     java_package = models.ManyToManyField(JavaPackage, blank=True)
 
+
+class ProjectWeb(models.Model):
+    host = models.ManyToManyField(Host)
+    public_ip = models.GenericIPAddressField('公网 IP')
+    domain = models.CharField('域名',max_length=200)
+    url = models.CharField('访问地址',max_length=200)
+    env = models.CharField('环境',max_length=200)
+    project = models.CharField('项目',max_length=200)
+    software = models.CharField('软件',max_length=200)
+    use = models.CharField('用途',max_length=200)
+    created = models.DateTimeField('创建时间',default=timezone.now)
+
+
