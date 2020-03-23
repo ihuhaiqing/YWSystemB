@@ -10,6 +10,7 @@ router.register(r'softwares',SoftwareViewSet)
 router.register(r'projectWeb',ProjectWebViewSet)
 router.register(r'getProjectWeb',GetProjectWebViewSet)
 
+
 urlpatterns = [
     path('',include(router.urls)),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider'))

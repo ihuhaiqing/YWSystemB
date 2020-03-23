@@ -1,4 +1,4 @@
-from app.models import Host,Account,Project,JavaPackage,Software,ProjectWeb
+from app.models import *
 from rest_framework import serializers
 
 
@@ -46,4 +46,5 @@ class GetProjectWebSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectWeb
         fields = '__all__'
+
 

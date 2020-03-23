@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-
 # Create your models here.
 
 
@@ -19,6 +18,9 @@ class Host(models.Model):
     ins_num = models.IntegerField('实例数量',default='0')
     status = models.BooleanField('状态',default=True)
     created = models.DateTimeField('创建时间',default=timezone.now)
+
+    def __str__(self):
+        return self.ip
 
 
 class Account(models.Model):
@@ -62,5 +64,4 @@ class ProjectWeb(models.Model):
     software = models.CharField('软件',max_length=200)
     use = models.CharField('用途',max_length=200)
     created = models.DateTimeField('创建时间',default=timezone.now)
-
 
