@@ -70,3 +70,18 @@ class GetProjectWebViewSet(viewsets.ModelViewSet):
     queryset = ProjectWeb.objects.all()
     serializer_class = GetProjectWebSerializer
 
+    def list(self, request, *args, **kwargs):
+        env = request.GET.get('env')
+        project = request.GET.get('project')
+        software = request.GET.get('software')
+        print(env)
+        queryset = ProjectWeb.objects.filter(env=env,project=project,software=software)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
