@@ -74,7 +74,6 @@ class GetProjectWebViewSet(viewsets.ModelViewSet):
         env = request.GET.get('env')
         project = request.GET.get('project')
         software = request.GET.get('software')
-        print(env)
         queryset = ProjectWeb.objects.filter(env=env,project=project,software=software)
 
         page = self.paginate_queryset(queryset)
