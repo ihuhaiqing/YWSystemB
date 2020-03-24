@@ -36,12 +36,6 @@ class Env(models.Model):
         return self.name
 
 
-class JavaPackage(models.Model):
-    name = models.CharField('包名',max_length=200,unique=True)
-    def __str__(self):
-        return self.name
-
-
 class Software(models.Model):
     name = models.CharField('软件名称',max_length=200,unique=True)
     def __str__(self):
@@ -51,7 +45,20 @@ class Software(models.Model):
 class Project(models.Model):
     name = models.CharField('项目名称',max_length=200,unique=True)
     software = models.ManyToManyField(Software)
-    java_package = models.ManyToManyField(JavaPackage, blank=True)
+    # java_package = models.ManyToManyField(JavaPackage, blank=True)
+    def __str__(self):
+        return self.name
+
+class JavaPackage(models.Model):
+    name = models.CharField('包名',max_length=200,unique=True)
+    port = models.IntegerField('端口号')
+    project = models.ForeignKey(Project,related_name='java_package',on_delete=models.CASCADE)
+    deploy_dir = models.CharField('部署路径',max_length=200)
+    download_addr = models.CharField('下载地址',max_length=200)
+    func = models.CharField('功能',max_length=200)
+    created = models.DateTimeField('创建时间',default=timezone.now)
+    def __str__(self):
+        return self.name
 
 
 class ProjectWeb(models.Model):

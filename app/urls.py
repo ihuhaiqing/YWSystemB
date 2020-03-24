@@ -9,7 +9,8 @@ router.register(r'projects',ProjectViewSet)
 router.register(r'softwares',SoftwareViewSet)
 router.register(r'projectWeb',ProjectWebViewSet)
 router.register(r'getProjectWeb',GetProjectWebViewSet)
-
+router.register(r'javaPackages',JavaPackageViewSet)
+router.register(r'getJavaPackages',GetJavaPackageViewSet)
 
 urlpatterns = [
     path('',include(router.urls)),

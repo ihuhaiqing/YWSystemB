@@ -84,3 +84,31 @@ class GetProjectWebViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
+
+class JavaPackageViewSet(viewsets.ModelViewSet):
+    queryset = JavaPackage.objects.all()
+    serializer_class = JavaPackageSerializer
+
+
+class GetJavaPackageViewSet(viewsets.ModelViewSet):
+    queryset = JavaPackage.objects.all()
+    serializer_class = GetJavaPackageSerializer
+
+    def list(self, request, *args, **kwargs):
+        page_size = request.GET.get('limit')
+        if int(page_size) == 10000:
+            pagination.PageNumberPagination.page_size = None
+        else:
+            pagination.PageNumberPagination.page_size = page_size
+        name = request.GET.get('name')
+        project = request.GET.get('project')
+        queryset = JavaPackage.objects.filter(name__contains=name,project__name__contains=project).order_by('name')
+        page = self.paginate_queryset(queryset)
+
+        pagination.PageNumberPagination.page_size = None
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
