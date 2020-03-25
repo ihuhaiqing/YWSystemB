@@ -45,9 +45,9 @@ class Software(models.Model):
 class Project(models.Model):
     name = models.CharField('项目名称',max_length=200,unique=True)
     software = models.ManyToManyField(Software)
-    # java_package = models.ManyToManyField(JavaPackage, blank=True)
     def __str__(self):
         return self.name
+
 
 class JavaPackage(models.Model):
     name = models.CharField('包名',max_length=200,unique=True)
@@ -57,6 +57,10 @@ class JavaPackage(models.Model):
     download_addr = models.CharField('下载地址',max_length=200)
     func = models.CharField('功能',max_length=200)
     created = models.DateTimeField('创建时间',default=timezone.now)
+
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return self.name
 
@@ -71,4 +75,15 @@ class ProjectWeb(models.Model):
     software = models.CharField('软件',max_length=200)
     use = models.CharField('用途',max_length=200)
     created = models.DateTimeField('创建时间',default=timezone.now)
+
+
+class ProjectTomcat(models.Model):
+    package_name = models.CharField('包名',max_length=200)
+    env = models.CharField('环境', max_length=200)
+    project = models.CharField('项目', max_length=200)
+    host = models.ForeignKey(Host,on_delete=models.CASCADE)
+    created = models.DateTimeField('创建时间', default=timezone.now)
+
+    class Meta:
+        unique_together = ('package_name','env','project')
 

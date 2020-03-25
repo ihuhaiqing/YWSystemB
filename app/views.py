@@ -113,3 +113,29 @@ class GetJavaPackageViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class ProjectTomcatViewSet(viewsets.ModelViewSet):
+    queryset = ProjectTomcat.objects.all()
+    serializer_class = ProjectTomcatSerializer
+
+
+class GetProjectTomcatViewSet(viewsets.ModelViewSet):
+    queryset = ProjectTomcat.objects.all()
+    serializer_class = GetProjectTomcatSerializer
+
+    def list(self, request, *args, **kwargs):
+        env = request.GET.get('env')
+        project = request.GET.get('project')
+        package_name = request.GET.get('package_name')
+        queryset = ProjectTomcat.objects.filter(env=env,project=project,package_name=package_name)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+

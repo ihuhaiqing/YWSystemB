@@ -11,6 +11,8 @@ router.register(r'projectWeb',ProjectWebViewSet)
 router.register(r'getProjectWeb',GetProjectWebViewSet)
 router.register(r'javaPackages',JavaPackageViewSet)
 router.register(r'getJavaPackages',GetJavaPackageViewSet)
+router.register(r'projectTomcat',ProjectTomcatViewSet)
+router.register(r'getProjectTomcat',GetProjectTomcatViewSet)
 
 urlpatterns = [
     path('',include(router.urls)),
