@@ -85,5 +85,5 @@ class ProjectTomcat(models.Model):
     created = models.DateTimeField('创建时间', default=timezone.now)
 
     class Meta:
-        unique_together = ('package_name','env','project')
+        unique_together = ('package_name','env','project','host')
 

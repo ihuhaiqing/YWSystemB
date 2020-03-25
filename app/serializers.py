@@ -56,7 +56,7 @@ class GetProjectWebSerializer(serializers.ModelSerializer):
 
 
 class ProjectTomcatSerializer(serializers.ModelSerializer):
-    host = serializers.PrimaryKeyRelatedField(queryset=Host.objects.all(),many=True)
+    host = serializers.PrimaryKeyRelatedField(queryset=Host.objects.all(),many=False)
     class Meta:
         model = ProjectTomcat
         fields = '__all__'
