@@ -3,27 +3,28 @@ from rest_framework import viewsets,status
 from rest_framework.response import Response
 from app.models import Host,Account,Project,Software
 from app.serializers import *
-from rest_framework import pagination
+from rest_framework.pagination import PageNumberPagination
 # Create your views here.
 
 
 class HostViewSet(viewsets.ModelViewSet):
     queryset = Host.objects.all()
     serializer_class = HostSerializer
+    pagination_class = PageNumberPagination
 
     def list(self, request, *args, **kwargs):
         page_size = request.GET.get('limit')
         if int(page_size) == 10000:
-            pagination.PageNumberPagination.page_size = None
+            PageNumberPagination.page_size = None
         else:
-            pagination.PageNumberPagination.page_size = page_size
+            PageNumberPagination.page_size = page_size
         ip = request.GET.get('ip')
         type = request.GET.get('type')
         env = request.GET.get('env')
         queryset = Host.objects.filter(ip__contains=ip,type__contains=type,env__contains=env).order_by('ip')
         page = self.paginate_queryset(queryset)
 
-        pagination.PageNumberPagination.page_size = None
+        PageNumberPagination.page_size = None
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
@@ -35,13 +36,14 @@ class HostViewSet(viewsets.ModelViewSet):
 class AccountViewSet(viewsets.ModelViewSet):
     queryset = Account.objects.all()
     serializer_class = AccountSerialize
+    pagination_class = PageNumberPagination
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
 
-        pagination.PageNumberPagination.page_size = request.GET.get('limit')
+        PageNumberPagination.page_size = request.GET.get('limit')
         page = self.paginate_queryset(queryset)
-        pagination.PageNumberPagination.page_size = None
+        PageNumberPagination.page_size = None
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
@@ -56,7 +58,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 
 class SoftwareViewSet(viewsets.ModelViewSet):
-    pagination.PageNumberPagination.page_size = None
     queryset = Software.objects.all()
     serializer_class = SoftwareSerializer
 
@@ -93,19 +94,19 @@ class JavaPackageViewSet(viewsets.ModelViewSet):
 class GetJavaPackageViewSet(viewsets.ModelViewSet):
     queryset = JavaPackage.objects.all()
     serializer_class = GetJavaPackageSerializer
+    pagination_class = PageNumberPagination
 
     def list(self, request, *args, **kwargs):
         page_size = request.GET.get('limit')
         if int(page_size) == 10000:
-            pagination.PageNumberPagination.page_size = None
+            PageNumberPagination.page_size = None
         else:
-            pagination.PageNumberPagination.page_size = page_size
+            PageNumberPagination.page_size = page_size
         name = request.GET.get('name')
         project = request.GET.get('project')
         queryset = JavaPackage.objects.filter(name__contains=name,project__name__contains=project).order_by('name')
         page = self.paginate_queryset(queryset)
 
-        pagination.PageNumberPagination.page_size = None
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
