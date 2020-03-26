@@ -119,6 +119,16 @@ class ProjectTomcatViewSet(viewsets.ModelViewSet):
     queryset = ProjectTomcat.objects.all()
     serializer_class = ProjectTomcatSerializer
 
+    def create(self, request, *args, **kwargs):
+        hosts = request.data['host']
+        for h in hosts:
+            request.data['host'] = h
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
 
 class GetProjectTomcatViewSet(viewsets.ModelViewSet):
     queryset = ProjectTomcat.objects.all()
@@ -137,5 +147,4 @@ class GetProjectTomcatViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-
 
