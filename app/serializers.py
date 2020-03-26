@@ -69,3 +69,30 @@ class GetProjectTomcatSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectTomcat
         fields = '__all__'
+
+
+class ProjectMySQLDBSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectMySQLDB
+        fields = '__all__'
+
+
+class GetProjectMySQLDBSerializer(serializers.ModelSerializer):
+    host = HostSerializer(many=False)
+    class Meta:
+        model = ProjectMySQLDB
+        fields = '__all__'
+
+
+class MySQLDBSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MySQLDB
+        fields = '__all__'
+
+
+class GetMySQLDBSerializer(serializers.ModelSerializer):
+    project = ProjectSerializer(many=False)
+    project_mysql = GetProjectMySQLDBSerializer(read_only=True,many=True)
+    class Meta:
+        model = MySQLDB
+        fields = '__all__'

@@ -13,6 +13,9 @@ router.register(r'javaPackages',JavaPackageViewSet)
 router.register(r'getJavaPackages',GetJavaPackageViewSet)
 router.register(r'projectTomcat',ProjectTomcatViewSet)
 router.register(r'getProjectTomcat',GetProjectTomcatViewSet)
+router.register(r'mysqldb',MySQLDBViewSet)
+router.register(r'getMysqldb',GetMySQLDBViewSet)
+router.register(r'projectMysqldb',ProjectMySQLDBViewSet)
 
 urlpatterns = [
     path('',include(router.urls)),

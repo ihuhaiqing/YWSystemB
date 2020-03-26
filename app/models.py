@@ -87,3 +87,31 @@ class ProjectTomcat(models.Model):
     class Meta:
         unique_together = ('package_name','env','project','host')
 
+
+class MySQLDB(models.Model):
+    name = models.CharField('数据库名',max_length=200,unique=True)
+    project = models.ForeignKey(Project,on_delete=models.CASCADE)
+    username = models.CharField('用户名',max_length=200)
+    pro_password = models.CharField('测试环境密码',max_length=200)
+    test_password = models.CharField('生产环境密码',max_length=200)
+    created = models.DateTimeField('创建时间', default=timezone.now)
+
+    def __str__(self):
+        return '__all__'
+
+
+class ProjectMySQLDB(models.Model):
+    mysqldb = models.ForeignKey(MySQLDB,related_name='project_mysql',on_delete=models.CASCADE)
+    env = models.CharField('环境',max_length=200)
+    host = models.ForeignKey(Host,on_delete=models.CASCADE)
+    version = models.CharField('版本',max_length=200,default='MySQL 5.7')
+    port = models.IntegerField(default=3306)
+    role = models.CharField('角色',max_length=200)
+    root_password = models.CharField('ROOT 密码',max_length=200)
+    data_dir = models.CharField('数据目录',max_length=200)
+    created = models.DateTimeField('创建时间', default=timezone.now)
+
+    class Meta:
+        unique_together = ['mysqldb','host']
+
+

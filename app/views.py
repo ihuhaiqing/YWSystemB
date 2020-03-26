@@ -148,3 +148,38 @@ class GetProjectTomcatViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
+
+class MySQLDBViewSet(viewsets.ModelViewSet):
+    queryset = MySQLDB.objects.all().order_by('name')
+    serializer_class = MySQLDBSerializer
+
+
+class GetMySQLDBViewSet(viewsets.ModelViewSet):
+    queryset = MySQLDB.objects.all().order_by('name')
+    serializer_class = GetMySQLDBSerializer
+    pagination_class = PageNumberPagination
+
+    def list(self, request, *args, **kwargs):
+        page_size = request.GET.get('limit')
+        if int(page_size) == 10000:
+            PageNumberPagination.page_size = None
+        else:
+            PageNumberPagination.page_size = page_size
+        name = request.GET.get('name')
+        project = request.GET.get('project')
+        queryset = MySQLDB.objects.filter(name__contains=name, project__name__contains=project).order_by('name')
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ProjectMySQLDBViewSet(viewsets.ModelViewSet):
+    queryset = ProjectMySQLDB.objects.all()
+    serializer_class = ProjectMySQLDBSerializer
+
+
