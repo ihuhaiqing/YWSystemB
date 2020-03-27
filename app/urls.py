@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework import routers
 from app.views import *
+from app.drf.views.auth import UserViewSet,GroupViewSet
 
 router = routers.DefaultRouter()
 router.register(r'hosts',HostViewSet)
@@ -16,6 +17,8 @@ router.register(r'getProjectTomcat',GetProjectTomcatViewSet)
 router.register(r'mysqldb',MySQLDBViewSet)
 router.register(r'getMysqldb',GetMySQLDBViewSet)
 router.register(r'projectMysqldb',ProjectMySQLDBViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'groups', GroupViewSet)
 
 urlpatterns = [
     path('',include(router.urls)),

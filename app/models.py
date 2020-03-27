@@ -52,7 +52,7 @@ class Project(models.Model):
 class JavaPackage(models.Model):
     name = models.CharField('包名',max_length=200,unique=True)
     port = models.IntegerField('端口号')
-    project = models.ForeignKey(Project,related_name='java_package',on_delete=models.CASCADE)
+    project = models.ForeignKey(Project,related_name='java_package',on_delete=models.PROTECT)
     deploy_dir = models.CharField('部署路径',max_length=200)
     download_addr = models.CharField('下载地址',max_length=200)
     func = models.CharField('功能',max_length=200)
@@ -81,7 +81,7 @@ class ProjectTomcat(models.Model):
     package_name = models.CharField('包名',max_length=200)
     env = models.CharField('环境', max_length=200)
     project = models.CharField('项目', max_length=200)
-    host = models.ForeignKey(Host,on_delete=models.CASCADE)
+    host = models.ForeignKey(Host,on_delete=models.PROTECT)
     created = models.DateTimeField('创建时间', default=timezone.now)
 
     class Meta:
@@ -90,7 +90,7 @@ class ProjectTomcat(models.Model):
 
 class MySQLDB(models.Model):
     name = models.CharField('数据库名',max_length=200,unique=True)
-    project = models.ForeignKey(Project,on_delete=models.CASCADE)
+    project = models.ForeignKey(Project,on_delete=models.PROTECT)
     username = models.CharField('用户名',max_length=200)
     pro_password = models.CharField('测试环境密码',max_length=200)
     test_password = models.CharField('生产环境密码',max_length=200)
@@ -101,9 +101,9 @@ class MySQLDB(models.Model):
 
 
 class ProjectMySQLDB(models.Model):
-    mysqldb = models.ForeignKey(MySQLDB,related_name='project_mysql',on_delete=models.CASCADE)
+    mysqldb = models.ForeignKey(MySQLDB,related_name='project_mysql',on_delete=models.PROTECT)
     env = models.CharField('环境',max_length=200)
-    host = models.ForeignKey(Host,on_delete=models.CASCADE)
+    host = models.ForeignKey(Host,on_delete=models.PROTECT)
     version = models.CharField('版本',max_length=200,default='MySQL 5.7')
     port = models.IntegerField(default=3306)
     role = models.CharField('角色',max_length=200)
