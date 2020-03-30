@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework import routers
 from app.views import *
-from app.drf.views.auth import UserViewSet, GetUserViewSet, GroupViewSet,GetGroupViewSet
+from app.drf.views.auth import UserViewSet, GetUserViewSet, GroupViewSet,GetGroupViewSet,UserPassword
 
 router = routers.DefaultRouter()
 router.register(r'hosts',HostViewSet)
@@ -24,5 +24,6 @@ router.register(r'getGroups', GetGroupViewSet)
 
 urlpatterns = [
     path('',include(router.urls)),
-    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider'))
+    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    path('changeMyPassword/',UserPassword.as_view())
 ]

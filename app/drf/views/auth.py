@@ -2,9 +2,9 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets,status
 from app.drf.serializers.auth import UserSerializer, GetUserSerializer,GroupSerializer, GetGroupSerializer
 from rest_framework.response import Response
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password,check_password
 from rest_framework.pagination import PageNumberPagination
-
+from rest_framework.views import APIView
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -93,4 +93,16 @@ class GetGroupViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class UserPassword(APIView):
+    def put(self, request, format=None):
+        username = request.data['username']
+        user = User.objects.get(username=username)
+        print(check_password(request.data['old_password'],encoded=user.password))
+        if not check_password(request.data['old_password'],encoded=user.password) :
+            return Response("旧密码错误", status=status.HTTP_400_BAD_REQUEST)
+        user.password = make_password(request.data['password'])
+        user.save()
+        return Response("修改成功")
 
