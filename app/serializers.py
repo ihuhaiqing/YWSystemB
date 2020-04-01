@@ -96,3 +96,4 @@ class GetMySQLDBSerializer(serializers.ModelSerializer):
     class Meta:
         model = MySQLDB
         fields = '__all__'
+

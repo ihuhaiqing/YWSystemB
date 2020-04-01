@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 from app.views import *
 from app.drf.views.auth import UserViewSet, GetUserViewSet, GroupViewSet,GetGroupViewSet,UserPassword
-
+from app.drf.views.task import TaskViewSet
 
 router = routers.DefaultRouter()
 router.register(r'hosts',HostViewSet)
@@ -22,6 +22,7 @@ router.register(r'users', UserViewSet)
 router.register(r'getUsers', GetUserViewSet)
 router.register(r'groups', GroupViewSet)
 router.register(r'getGroups', GetGroupViewSet)
+router.register(r'tasks', TaskViewSet)
 
 urlpatterns = [
     path('',include(router.urls)),
