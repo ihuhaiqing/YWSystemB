@@ -9,7 +9,7 @@ application = ProtocolTypeRouter({
     # WebSocket chat handler
     "websocket": AuthMiddlewareStack(
         URLRouter([
-            url(r"^api/task/$", task.ChatConsumer)
+            url(r"^api/task/$", task.TaskConsumer)
         ])
     ),
 })

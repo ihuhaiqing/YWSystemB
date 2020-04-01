@@ -1,59 +1,33 @@
 import paramiko
-from dwebsocket.decorators import accept_websocket
-import time
 import json
 from channels.generic.websocket import WebsocketConsumer
 
 
-class ChatConsumer(WebsocketConsumer):
+class TaskConsumer(WebsocketConsumer):
     def connect(self):
         self.accept()
 
-    def disconnect(self, close_code):
-        self.send(text_data='closed')
+    def disconnect(self,close_code):
+        pass
 
-    def receive(self, text_data):
-        print(text_data)
-        text_data_json = json.loads(text_data)
-        # text_data = text_data.decode('utf-8')
+    def receive(self, text_data=None, bytes_data=None):
+        data=json.loads(text_data)
+        print(data['test'])
         s = paramiko.SSHClient()
         s.set_missing_host_key_policy(paramiko.AutoAddPolicy)
-        s.connect(hostname='188.188.1.141', username='root', password='bsbnet', port=22)
-        cmd = 'ls /'
-        stdin, stdout, stderr = s.exec_command(cmd)
+        try:
+            s.connect(hostname='188.188.1.11', username='root', password='bsbneta', port=22)
+        except Exception as e:
+            self.send(text_data='连接服务器失败 %s' %e)
+        cmd = 'cat /etc/rc.local'
+        stdin, stdout, stderr = s.exec_command('%s 2>&1' %cmd)
+        null_line_count = 0
         while True:
-            text_data = stdout.readline().strip()
+            text_data = stdout.readline()
             self.send(text_data=text_data)
             if not text_data:
+                null_line_count += 1
+            if null_line_count == 100:
                 break
-
         s.close()
-        # self.send(text_data=json.dumps({
-        #     'message': message
-        # }))
-        self.disconnect(1000)
-
-@accept_websocket
-def execScript(request):
-    for message in request.websocket:
-        print('aaaa')
-        print(message)
-        message = message.decode('utf-8')
-        filename = message
-        s = paramiko.SSHClient()
-        s.set_missing_host_key_policy(paramiko.AutoAddPolicy)
-        s.connect(hostname='188.188.1.141', username='root', password='bsbnet', port=22)
-        cmd = 'ls /'
-        stdin, stdout, stderr = s.exec_command(cmd)
-        nullcount = 0
-        while True:
-            # outline = stdout.readline().strip().encode('utf-8')
-            request.websocket.send(stdout)
-            if not stdout:
-                nullcount = nullcount + 1
-                if nullcount == 100:
-                    break
-        time.sleep(5)
-        s.close()
-
-        request.websocket.send('closed')
+        self.send(text_data='closed')

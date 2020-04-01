@@ -73,7 +73,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'YWSystemB.wsgi.application'
-
 ASGI_APPLICATION = 'app.routing.application'
 
 DATABASES = {
