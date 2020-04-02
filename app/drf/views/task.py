@@ -39,23 +39,33 @@ class TaskConsumer(WebsocketConsumer):
         pass
 
     def receive(self, text_data=None, bytes_data=None):
-        data=json.loads(text_data)
-        print(data['test'])
-        s = paramiko.SSHClient()
-        s.set_missing_host_key_policy(paramiko.AutoAddPolicy)
-        try:
-            s.connect(hostname='188.188.1.151', username='root', password='bsbnet', port=22)
-        except Exception as e:
-            self.send(text_data='连接服务器失败 %s' %e)
-        cmd = 'cat /etc/rc.local'
-        stdin, stdout, stderr = s.exec_command('%s 2>&1' %cmd)
-        null_line_count = 0
-        while True:
-            text_data = stdout.readline()
-            self.send(text_data=text_data)
-            if not text_data:
-                null_line_count += 1
-            if null_line_count == 100:
-                break
-        s.close()
+        data = json.loads(text_data)
+        task = data['task']
+        if task['arg']:
+            arg = task['arg'] + ' '
+        else:
+            arg = ''
+        hosts = data['hosts']
+        cmd = 'sh ' + task['script_dir'] + '/' + task['script_name'] + ' ' + arg + '2>&1'
+        for host in hosts:
+            ip = host['ip']
+            username = host['admin']
+            password = host['password']
+            s = paramiko.SSHClient()
+            s.set_missing_host_key_policy(paramiko.AutoAddPolicy)
+            try:
+                s.connect(hostname=ip, username=username, password=password, port=22)
+            except Exception as e:
+                self.send(text_data='连接服务器 %s 失败 %s \n' %(ip,e))
+                continue
+            stdin, stdout, stderr = s.exec_command(cmd)
+            null_line_count = 0
+            while True:
+                text_data = stdout.readline()
+                self.send(text_data=text_data)
+                if not text_data:
+                    null_line_count += 1
+                if null_line_count == 100:
+                    break
+            s.close()
         self.send(text_data='closed')
