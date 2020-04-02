@@ -58,6 +58,7 @@ class TaskConsumer(WebsocketConsumer):
             except Exception as e:
                 self.send(text_data='连接服务器 %s 失败 %s \n' %(ip,e))
                 continue
+            self.send(text_data='开始在服务器 %s 上 %s \n' % (ip,task['name']))
             stdin, stdout, stderr = s.exec_command(cmd)
             null_line_count = 0
             while True:
