@@ -1,9 +1,9 @@
 # from django.shortcuts import render
 from rest_framework import viewsets,status
 from rest_framework.response import Response
-from app.models import Host,Account,Project,Software
 from app.serializers import *
 from rest_framework.pagination import PageNumberPagination
+
 # Create your views here.
 
 
@@ -55,6 +55,11 @@ class AccountViewSet(viewsets.ModelViewSet):
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+
+
+class GetProjectViewSet(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = GetProjectSerializer
 
 
 class SoftwareViewSet(viewsets.ModelViewSet):
@@ -121,13 +126,13 @@ class ProjectTomcatViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         hosts = request.data['host']
+
         for h in hosts:
             request.data['host'] = h
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
-            headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response( status=status.HTTP_201_CREATED)
 
 
 class GetProjectTomcatViewSet(viewsets.ModelViewSet):
@@ -167,7 +172,7 @@ class GetMySQLDBViewSet(viewsets.ModelViewSet):
             PageNumberPagination.page_size = page_size
         name = request.GET.get('name')
         project = request.GET.get('project')
-        queryset = MySQLDB.objects.filter(name__contains=name, project__name__contains=project).order_by('name')
+        queryset = MySQLDB.objects.filter(name__contains=name, project__id=project).order_by('name')
         page = self.paginate_queryset(queryset)
 
         if page is not None:
@@ -182,4 +187,36 @@ class ProjectMySQLDBViewSet(viewsets.ModelViewSet):
     queryset = ProjectMySQLDB.objects.all()
     serializer_class = ProjectMySQLDBSerializer
 
+
+class ProjectGeneralSoftwareViewSet(viewsets.ModelViewSet):
+    queryset = ProjectGeneralSoftware.objects.all()
+    serializer_class = ProjectGeneralSoftwareSerializer
+
+    def create(self, request, *args, **kwargs):
+        hosts = request.data['host']
+        for h in hosts:
+            request.data['host'] = h
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+        return Response(status=status.HTTP_201_CREATED)
+
+
+class GetProjectGeneralSoftwareViewSet(viewsets.ModelViewSet):
+    queryset = ProjectGeneralSoftware.objects.all()
+    serializer_class = GetProjectGeneralSoftwareSerializer
+
+    def list(self, request, *args, **kwargs):
+        env = request.GET.get('env')
+        project = request.GET.get('project')
+        software = request.GET.get('software')
+        queryset = ProjectGeneralSoftware.objects.filter(env=env,project=project,software=software)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 

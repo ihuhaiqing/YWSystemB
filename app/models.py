@@ -37,7 +37,9 @@ class Env(models.Model):
 
 
 class Software(models.Model):
+    type_choices = [('general','general'),('special','special')]
     name = models.CharField('软件名称',max_length=200,unique=True)
+    type = models.CharField('类型',max_length=200,default='general',choices=type_choices)
     def __str__(self):
         return self.name
 
@@ -71,7 +73,7 @@ class ProjectWeb(models.Model):
     domain = models.CharField('域名',max_length=200)
     url = models.CharField('访问地址',max_length=200)
     env = models.CharField('环境',max_length=200)
-    project = models.CharField('项目',max_length=200)
+    project = models.ForeignKey(Project,on_delete=models.PROTECT)
     software = models.CharField('软件',max_length=200)
     use = models.CharField('用途',max_length=200)
     created = models.DateTimeField('创建时间',default=timezone.now)
@@ -123,3 +125,13 @@ class Task(models.Model):
     type = models.CharField('类别',max_length=200)
     created = models.DateTimeField('创建时间', default=timezone.now)
 
+
+class ProjectGeneralSoftware(models.Model):
+    env = models.CharField('环境', max_length=200)
+    project = models.ForeignKey(Project,on_delete=models.PROTECT)
+    software = models.CharField('软件', max_length=200)
+    host = models.ForeignKey(Host,on_delete=models.PROTECT)
+    created = models.DateTimeField('创建时间', default=timezone.now)
+
+    class Meta:
+        unique_together = ('env','project','host')

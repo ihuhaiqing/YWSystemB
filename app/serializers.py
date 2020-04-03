@@ -34,11 +34,20 @@ class SoftwareSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    software = serializers.PrimaryKeyRelatedField(queryset=Software.objects.all(),many=True)
+
+    class Meta:
+        model = Project
+        fields = '__all__'
+
+
+class GetProjectSerializer(serializers.ModelSerializer):
     java_package = JavaPackageSerializer(read_only=True,many=True)
     software = SoftwareSerializer(read_only=True,many=True)
     class Meta:
         model = Project
         fields = '__all__'
+
 
 
 class ProjectWebSerializer(serializers.ModelSerializer):
@@ -91,9 +100,24 @@ class MySQLDBSerializer(serializers.ModelSerializer):
 
 
 class GetMySQLDBSerializer(serializers.ModelSerializer):
-    project = ProjectSerializer(many=False)
+    project = GetProjectSerializer(many=False)
     project_mysql = GetProjectMySQLDBSerializer(read_only=True,many=True)
     class Meta:
         model = MySQLDB
         fields = '__all__'
 
+
+class ProjectGeneralSoftwareSerializer(serializers.ModelSerializer):
+    host = serializers.PrimaryKeyRelatedField(queryset=Host.objects.all(),many=False)
+    class Meta:
+        model = ProjectGeneralSoftware
+        fields = '__all__'
+
+
+class GetProjectGeneralSoftwareSerializer(serializers.ModelSerializer):
+    # ManyToManyField: many=True
+    # ForeignKey: many=False 默认值
+    host = HostSerializer(many=False)
+    class Meta:
+        model = ProjectGeneralSoftware
+        fields = '__all__'

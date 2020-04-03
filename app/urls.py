@@ -7,6 +7,7 @@ from app.drf.views.task import TaskViewSet
 router = routers.DefaultRouter()
 router.register(r'hosts',HostViewSet)
 router.register(r'accounts',AccountViewSet)
+router.register(r'getProjects',GetProjectViewSet)
 router.register(r'projects',ProjectViewSet)
 router.register(r'softwares',SoftwareViewSet)
 router.register(r'projectWeb',ProjectWebViewSet)
@@ -23,6 +24,8 @@ router.register(r'getUsers', GetUserViewSet)
 router.register(r'groups', GroupViewSet)
 router.register(r'getGroups', GetGroupViewSet)
 router.register(r'tasks', TaskViewSet)
+router.register(r'projectGeneralSoftware', ProjectGeneralSoftwareViewSet)
+router.register(r'getProjectGeneralSoftware', GetProjectGeneralSoftwareViewSet)
 
 urlpatterns = [
     path('',include(router.urls)),
