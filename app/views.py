@@ -172,7 +172,11 @@ class GetMySQLDBViewSet(viewsets.ModelViewSet):
             PageNumberPagination.page_size = page_size
         name = request.GET.get('name')
         project = request.GET.get('project')
-        queryset = MySQLDB.objects.filter(name__contains=name, project__id=project).order_by('name')
+        if project == '':
+            queryset = MySQLDB.objects.filter(name__contains=name).order_by('name')
+        else:
+            queryset = MySQLDB.objects.filter(name__contains=name,project__id=project).order_by('name')
+
         page = self.paginate_queryset(queryset)
 
         if page is not None:

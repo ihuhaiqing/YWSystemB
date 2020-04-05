@@ -9,3 +9,4 @@
 - django-oauth-toolkit
 - paramiko
 - channels
+- webssh
