@@ -3,7 +3,7 @@ from rest_framework import viewsets,status
 from rest_framework.response import Response
 from app.serializers import *
 from rest_framework.pagination import PageNumberPagination
-
+from app.drf.viewsets import YwsViewSet
 # Create your views here.
 
 
@@ -52,17 +52,17 @@ class AccountViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class ProjectViewSet(viewsets.ModelViewSet):
+class ProjectViewSet(YwsViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
 
-class GetProjectViewSet(viewsets.ModelViewSet):
+class GetProjectViewSet(YwsViewSet):
     queryset = Project.objects.all()
     serializer_class = GetProjectSerializer
 
 
-class SoftwareViewSet(viewsets.ModelViewSet):
+class SoftwareViewSet(YwsViewSet):
     queryset = Software.objects.all()
     serializer_class = SoftwareSerializer
 

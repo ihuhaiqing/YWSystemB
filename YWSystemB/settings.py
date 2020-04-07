@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'rest_framework',
     'channels',
+    'guardian',
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     )
 }
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', # this is default
+    'guardian.backends.ObjectPermissionBackend',
+)
+
