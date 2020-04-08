@@ -5,6 +5,10 @@ from guardian.admin import GuardedModelAdmin
 class SoftwareProject(GuardedModelAdmin):
     list_display = ('name',)
 
+class HostAdmin(GuardedModelAdmin):
+    list_display = ('ip',)
+
+admin.site.register(Host,HostAdmin)
 admin.site.register(Env)
 admin.site.register(Software)
 admin.site.register(Project,SoftwareProject)

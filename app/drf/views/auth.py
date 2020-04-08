@@ -5,8 +5,11 @@ from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password,check_password
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView
+from app.drf.viewsets import CheckPermViewSet
+from guardian.shortcuts import get_objects_for_user, assign_perm
 
-class UserViewSet(viewsets.ModelViewSet):
+
+class UserViewSet(CheckPermViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
@@ -17,7 +20,24 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         request.data['password'] = make_password(request.data['password'])
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        user = request.user
+        user_groups = Group.objects.filter(user=user)
+        if user.has_perm('app.add_%s' % self.basename):
+            self.perform_create(serializer)
+            if not user.is_superuser:
+                mdl = self.get_serializer_class().Meta.model
+                instance = mdl.objects.get(pk=serializer.data['id'])
+                if len(user_groups) == 0:
+                    assign_perm('change_%s' % self.basename, instance)
+                    assign_perm('view_%s' % self.basename, instance)
+                    assign_perm('delete_%s' % self.basename, instance)
+                else:
+                    for user_group in user_groups:
+                        assign_perm('change_%s' % self.basename, user_group, instance)
+                        assign_perm('view_%s' % self.basename, user_group, instance)
+                        assign_perm('delete_%s' % self.basename, user_group, instance)
+        else:
+            return Response(data='没有新增权限，请联系管理员添加权限！', status=status.HTTP_403_FORBIDDEN)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
@@ -28,7 +48,11 @@ class UserViewSet(viewsets.ModelViewSet):
             request.data['password'] = make_password(request.data['password'])
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
+        user = request.user
+        if user.has_perm('change_%s' % self.basename, instance):
+            self.perform_update(serializer)
+        else:
+            return Response(data='没有编辑权限，请联系管理员添加权限！', status=status.HTTP_403_FORBIDDEN)
 
         if getattr(instance, '_prefetched_objects_cache', None):
             # If 'prefetch_related' has been applied to a queryset, we need to
@@ -38,7 +62,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class GetUserViewSet(viewsets.ModelViewSet):
+class GetUserViewSet(CheckPermViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
@@ -47,7 +71,11 @@ class GetUserViewSet(viewsets.ModelViewSet):
     pagination_class = PageNumberPagination
 
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
+        mdl = self.get_serializer_class().Meta.model
+        app = mdl._meta.app_label
+
+        objects = self.filter_queryset(self.get_queryset())
+        queryset = get_objects_for_user(request.user, '%s.view_%s' % (app,self.basename), objects)
 
         page_size = request.GET.get('limit')
         if int(page_size) == 10000:
@@ -64,12 +92,12 @@ class GetUserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class GroupViewSet(CheckPermViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
 
-class GetGroupViewSet(viewsets.ModelViewSet):
+class GetGroupViewSet(CheckPermViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
@@ -78,7 +106,10 @@ class GetGroupViewSet(viewsets.ModelViewSet):
     pagination_class = PageNumberPagination
 
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
+        mdl = self.get_serializer_class().Meta.model
+        app = mdl._meta.app_label
+        objects = self.filter_queryset(self.get_queryset())
+        queryset = get_objects_for_user(request.user, '%s.view_%s' %(app, self.basename), objects)
 
         page_size = request.GET.get('limit')
         if int(page_size) == 10000:

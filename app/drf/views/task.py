@@ -1,13 +1,15 @@
 import paramiko
 import json
 from channels.generic.websocket import WebsocketConsumer
-from rest_framework import viewsets
 from app.models import Task
 from app.drf.serializers.task import TaskSerializer
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
+from app.drf.viewsets import CheckPermViewSet
+from guardian.shortcuts import get_objects_for_user
 
-class TaskViewSet(viewsets.ModelViewSet):
+
+class TaskViewSet(CheckPermViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     pagination_class = PageNumberPagination
@@ -17,7 +19,8 @@ class TaskViewSet(viewsets.ModelViewSet):
         name = request.GET.get('name')
         type = request.GET.get('type')
 
-        queryset = Task.objects.filter(name__contains=name,type__contains=type)
+        objects = Task.objects.filter(name__contains=name,type__contains=type)
+        queryset = get_objects_for_user(request.user, 'app.view_%s' % self.basename, objects)
         if int(page_size) == 10000:
             PageNumberPagination.page_size = None
         else:
