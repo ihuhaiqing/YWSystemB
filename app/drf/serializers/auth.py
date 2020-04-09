@@ -1,19 +1,17 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User,Group,Permission,ContentType
 
-
-class ContentTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-      model = ContentType
-      fields = '__all__'
-
-
 class PermissionSerializer(serializers.ModelSerializer):
-    content_type = ContentTypeSerializer(many=False)
     class Meta:
       model = Permission
       fields = '__all__'
 
+
+class ContentTypeSerializer(serializers.ModelSerializer):
+    permission = PermissionSerializer(many=True)
+    class Meta:
+      model = ContentType
+      fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,7 +34,7 @@ class GetUserSerializer(serializers.ModelSerializer):
 
 class GetGroupSerializer(serializers.ModelSerializer):
     user_set = UserSerializer(many=True)
-    permissions = PermissionSerializer(many=True)
+    # permissions = PermissionSerializer(many=True)
     class Meta:
         model = Group
         fields = '__all__'

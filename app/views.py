@@ -3,8 +3,7 @@ from rest_framework import viewsets,status
 from rest_framework.response import Response
 from app.serializers import *
 from rest_framework.pagination import PageNumberPagination
-from guardian.shortcuts import get_objects_for_user, assign_perm
-from django.contrib.auth.models import Group
+from guardian.shortcuts import get_objects_for_user
 from app.drf.viewsets import CheckPermViewSet
 # Create your views here.
 
@@ -71,12 +70,12 @@ class SoftwareViewSet(viewsets.ModelViewSet):
     serializer_class = SoftwareSerializer
 
 
-class ProjectWebViewSet(CheckPermViewSet):
+class ProjectWebViewSet(viewsets.ModelViewSet):
     queryset = ProjectWeb.objects.all()
     serializer_class = ProjectWebSerializer
 
 
-class GetProjectWebViewSet(CheckPermViewSet):
+class GetProjectWebViewSet(viewsets.ModelViewSet):
     queryset = ProjectWeb.objects.all()
     serializer_class = GetProjectWebSerializer
 
@@ -84,8 +83,7 @@ class GetProjectWebViewSet(CheckPermViewSet):
         env = request.GET.get('env')
         project = request.GET.get('project')
         software = request.GET.get('software')
-        objects = ProjectWeb.objects.filter(env=env,project=project,software=software)
-        queryset = get_objects_for_user(request.user, 'app.view_%s' % self.basename, objects)
+        queryset = ProjectWeb.objects.filter(env=env,project=project,software=software)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -126,7 +124,7 @@ class GetJavaPackageViewSet(CheckPermViewSet):
         return Response(serializer.data)
 
 
-class ProjectTomcatViewSet(CheckPermViewSet):
+class ProjectTomcatViewSet(viewsets.ModelViewSet):
     queryset = ProjectTomcat.objects.all()
     serializer_class = ProjectTomcatSerializer
 
@@ -137,24 +135,7 @@ class ProjectTomcatViewSet(CheckPermViewSet):
             request.data['host'] = h
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            user = request.user
-            user_groups = Group.objects.filter(user=user)
-            if user.has_perm('app.add_%s' % self.basename):
-                self.perform_create(serializer)
-                if not user.is_superuser:
-                    mdl = self.get_serializer_class().Meta.model
-                    instance = mdl.objects.get(pk=serializer.data['id'])
-                    if len(user_groups) == 0:
-                        assign_perm('change_%s' % self.basename, instance)
-                        assign_perm('view_%s' % self.basename, instance)
-                        assign_perm('delete_%s' % self.basename, instance)
-                    else:
-                        for user_group in user_groups:
-                            assign_perm('change_%s' % self.basename, user_group, instance)
-                            assign_perm('view_%s' % self.basename, user_group, instance)
-                            assign_perm('delete_%s' % self.basename, user_group, instance)
-            else:
-                return Response(data='没有新增权限，请联系管理员添加权限！', status=status.HTTP_403_FORBIDDEN)
+            self.perform_create(serializer)
         return Response( status=status.HTTP_201_CREATED)
 
 
@@ -166,8 +147,7 @@ class GetProjectTomcatViewSet(CheckPermViewSet):
         env = request.GET.get('env')
         project = request.GET.get('project')
         package_name = request.GET.get('package_name')
-        objects = ProjectTomcat.objects.filter(env=env,project=project,package_name=package_name)
-        queryset = get_objects_for_user(request.user, 'app.view_%s' % self.basename, objects)
+        queryset = ProjectTomcat.objects.filter(env=env,project=project,package_name=package_name)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -213,12 +193,12 @@ class GetMySQLDBViewSet(CheckPermViewSet):
         return Response(serializer.data)
 
 
-class ProjectMySQLDBViewSet(CheckPermViewSet):
+class ProjectMySQLDBViewSet(viewsets.ModelViewSet):
     queryset = ProjectMySQLDB.objects.all()
     serializer_class = ProjectMySQLDBSerializer
 
 
-class ProjectGeneralSoftwareViewSet(CheckPermViewSet):
+class ProjectGeneralSoftwareViewSet(viewsets.ModelViewSet):
     queryset = ProjectGeneralSoftware.objects.all()
     serializer_class = ProjectGeneralSoftwareSerializer
 
@@ -228,28 +208,11 @@ class ProjectGeneralSoftwareViewSet(CheckPermViewSet):
             request.data['host'] = h
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            user = request.user
-            user_groups = Group.objects.filter(user=user)
-            if user.has_perm('app.add_%s' % self.basename):
-                self.perform_create(serializer)
-                if not user.is_superuser:
-                    mdl = self.get_serializer_class().Meta.model
-                    instance = mdl.objects.get(pk=serializer.data['id'])
-                    if len(user_groups) == 0:
-                        assign_perm('change_%s' % self.basename, instance)
-                        assign_perm('view_%s' % self.basename, instance)
-                        assign_perm('delete_%s' % self.basename, instance)
-                    else:
-                        for user_group in user_groups:
-                            assign_perm('change_%s' % self.basename, user_group, instance)
-                            assign_perm('view_%s' % self.basename, user_group, instance)
-                            assign_perm('delete_%s' % self.basename, user_group, instance)
-            else:
-                return Response(data='没有新增权限，请联系管理员添加权限！', status=status.HTTP_403_FORBIDDEN)
+            self.perform_create(serializer)
         return Response(status=status.HTTP_201_CREATED)
 
 
-class GetProjectGeneralSoftwareViewSet(CheckPermViewSet):
+class GetProjectGeneralSoftwareViewSet(viewsets.ModelViewSet):
     queryset = ProjectGeneralSoftware.objects.all()
     serializer_class = GetProjectGeneralSoftwareSerializer
 
@@ -257,8 +220,7 @@ class GetProjectGeneralSoftwareViewSet(CheckPermViewSet):
         env = request.GET.get('env')
         project = request.GET.get('project')
         software = request.GET.get('software')
-        objects = ProjectGeneralSoftware.objects.filter(env=env,project=project,software=software)
-        queryset = get_objects_for_user(request.user, 'app.view_%s' % self.basename, objects)
+        queryset = ProjectGeneralSoftware.objects.filter(env=env,project=project,software=software)
 
         page = self.paginate_queryset(queryset)
         if page is not None:

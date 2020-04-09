@@ -1,13 +1,13 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets,status
-from app.drf.serializers.auth import UserSerializer, GetUserSerializer,GroupSerializer, GetGroupSerializer
+from app.drf.serializers.auth import UserSerializer, GetUserSerializer,GroupSerializer, GetGroupSerializer, ContentTypeSerializer
 from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password,check_password
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView
 from app.drf.viewsets import CheckPermViewSet
-from guardian.shortcuts import get_objects_for_user, assign_perm
-
+from guardian.shortcuts import get_objects_for_user, assign_perm, get_perms
+from django.contrib.auth.models import ContentType
 
 class UserViewSet(CheckPermViewSet):
     """
@@ -130,10 +130,34 @@ class UserPassword(APIView):
     def put(self, request, format=None):
         username = request.data['username']
         user = User.objects.get(username=username)
-        print(check_password(request.data['old_password'],encoded=user.password))
         if not check_password(request.data['old_password'],encoded=user.password) :
             return Response("旧密码错误", status=status.HTTP_400_BAD_REQUEST)
         user.password = make_password(request.data['password'])
         user.save()
         return Response("修改成功")
+
+
+class ContentTypeViewSet(viewsets.ModelViewSet):
+    queryset = ContentType.objects.filter(app_label='app')
+    serializer_class = ContentTypeSerializer
+
+
+class UserObjectPermsView(APIView):
+    def get(self, request, format=None):
+        user = request.user
+        print(request.data)
+        print(request.GET.get('model'))
+        from app.models import Host
+        host = Host.objects.get(pk=114)
+        # print(get_perms(user, host))
+        return Response("成功")
+
+    def post(self, request, format=None):
+        user = request.user
+        print(user)
+        from app.models import Host
+        host = Host.objects.get(pk=114)
+        assign_perm('view_host', user, host)
+        return Response("成功")
+
 
