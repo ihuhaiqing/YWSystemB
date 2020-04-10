@@ -33,5 +33,7 @@ urlpatterns = [
     path('',include(router.urls)),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('changeMyPassword/',UserPassword.as_view()),
-    path('getUserObjectPerms/', UserObjectPermsView.as_view())
+    path('getGroupObjectPerms/', GetGroupObjectPermsView.as_view()),
+    path('setGroupObjectPerms/', SetGroupObjectPermsView.as_view()),
+    path('getGroupPerms/', getGroupPermsView.as_view())
 ]

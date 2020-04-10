@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, ContentType
 from rest_framework import viewsets,status
 from app.drf.serializers.auth import UserSerializer, GetUserSerializer,GroupSerializer, GetGroupSerializer, ContentTypeSerializer
 from rest_framework.response import Response
@@ -6,8 +6,9 @@ from django.contrib.auth.hashers import make_password,check_password
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView
 from app.drf.viewsets import CheckPermViewSet
-from guardian.shortcuts import get_objects_for_user, assign_perm, get_perms
-from django.contrib.auth.models import ContentType
+from guardian.shortcuts import get_objects_for_user, assign_perm
+from guardian.models import GroupObjectPermission
+
 
 class UserViewSet(CheckPermViewSet):
     """
@@ -142,22 +143,71 @@ class ContentTypeViewSet(viewsets.ModelViewSet):
     serializer_class = ContentTypeSerializer
 
 
-class UserObjectPermsView(APIView):
-    def get(self, request, format=None):
-        user = request.user
-        print(request.data)
-        print(request.GET.get('model'))
-        from app.models import Host
-        host = Host.objects.get(pk=114)
-        # print(get_perms(user, host))
-        return Response("成功")
-
+class GetGroupObjectPermsView(APIView):
     def post(self, request, format=None):
-        user = request.user
-        print(user)
-        from app.models import Host
-        host = Host.objects.get(pk=114)
-        assign_perm('view_host', user, host)
-        return Response("成功")
+        model = request.data['model']
+        content_type = ContentType.objects.get(model=model)
+        objects = request.data['objects']
+        groupname = request.data['groupname']
+        group = Group.objects.get(name=groupname)
+        for i,object in enumerate(objects):
+            perms = []
+            object_pk = object['id']
+            object_perms = GroupObjectPermission.objects.filter(content_type_id=content_type.id,object_pk=object_pk,group_id=group.id)
+            for perm in object_perms:
+                perms.append(perm.permission_id)
+            object['perms'] = perms
+            objects[i] = object
+        return Response(objects)
+
+
+class SetGroupObjectPermsView(APIView):
+    def post(self, request, format=None):
+        model = request.data['model']
+        content_type = ContentType.objects.get(model=model)
+        objects = request.data['objects']
+        groupname = request.data['groupname']
+        group = Group.objects.get(name=groupname)
+        content_type_id = content_type.id
+        group_id = group.id
+        for i,object in enumerate(objects):
+            object_pk = int(object['id'])
+            e_perms = GroupObjectPermission.objects.filter(content_type_id=content_type_id,object_pk=object_pk,group_id=group_id)
+            e_perms.delete()
+            perms = object['perms']
+            for permission_id in perms:
+                gop = GroupObjectPermission(content_type_id=content_type_id,object_pk=object_pk,group_id=group_id,permission_id=permission_id)
+                gop.save()
+        return Response(status=status.HTTP_201_CREATED)
+
+
+class getGroupPermsView(APIView):
+    def get(self, request):
+        groupname = request.GET.get('groupname')
+        group = Group.objects.get(name=groupname)
+        # 查询组的所有记录
+        queryset = GroupObjectPermission.objects.filter(group=group)
+        # 获取模型
+        content_types = queryset.values('content_type').distinct()
+        results = []
+        for content_type in content_types:
+            # 获取模型对象
+            objects = queryset.filter(content_type_id =content_type['content_type'])
+            content_objects = []
+            for object in objects:
+                content_objects.append(object.content_object)
+            content_objects=list(set(content_objects))
+            group_objects = []
+            model = ContentType.objects.get(pk=content_type['content_type']).model
+            for content_object in content_objects:
+                if content_object:
+                    perms = objects.filter(object_pk = content_object.id).values('permission_id')
+                    perm_dict = []
+                    for perm in perms:
+                        perm_dict.append(perm['permission_id'])
+                    if model == 'host':
+                        group_objects.append({'object': content_object.ip, 'perms': perm_dict})
+            results.append({'model':model , 'group_objects': group_objects})
+        return Response(results)
 
 
