@@ -27,6 +27,10 @@ router.register(r'getGroups', GetGroupViewSet)
 router.register(r'tasks', TaskViewSet)
 router.register(r'projectGeneralSoftware', ProjectGeneralSoftwareViewSet)
 router.register(r'getProjectGeneralSoftware', GetProjectGeneralSoftwareViewSet)
+router.register(r'projectMongoDB', ProjectMongoDBViewSet)
+router.register(r'getProjectMongoDB', GetProjectMongoDBViewSet)
+router.register(r'projectOracle', ProjectOracleViewSet)
+router.register(r'getProjectOracle', GetProjectOracleViewSet)
 
 
 urlpatterns = [
@@ -35,5 +39,6 @@ urlpatterns = [
     path('changeMyPassword/',UserPassword.as_view()),
     path('getGroupObjectPerms/', GetGroupObjectPermsView.as_view()),
     path('setGroupObjectPerms/', SetGroupObjectPermsView.as_view()),
-    path('getGroupPerms/', getGroupPermsView.as_view())
+    path('getGroupPerms/', GetGroupPermsView.as_view()),
+    path('getDashboardData/', GetDashboardDataView.as_view())
 ]

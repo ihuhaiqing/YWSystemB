@@ -181,7 +181,7 @@ class SetGroupObjectPermsView(APIView):
         return Response(status=status.HTTP_201_CREATED)
 
 
-class getGroupPermsView(APIView):
+class GetGroupPermsView(APIView):
     def get(self, request):
         groupname = request.GET.get('groupname')
         group = Group.objects.get(name=groupname)

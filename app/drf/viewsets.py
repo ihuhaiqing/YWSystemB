@@ -1,6 +1,6 @@
 from rest_framework import viewsets,status
 from rest_framework.response import Response
-from guardian.shortcuts import get_objects_for_user, assign_perm, ObjectPermissionChecker
+from guardian.shortcuts import get_objects_for_user, assign_perm
 from django.contrib.auth.models import Group
 
 class CheckPermViewSet(viewsets.ModelViewSet):

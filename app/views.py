@@ -5,6 +5,8 @@ from app.serializers import *
 from rest_framework.pagination import PageNumberPagination
 from guardian.shortcuts import get_objects_for_user
 from app.drf.viewsets import CheckPermViewSet
+from rest_framework.views import APIView
+from app.models import Project, Host, MySQLDB, JavaPackage
 # Create your views here.
 
 
@@ -230,3 +232,58 @@ class GetProjectGeneralSoftwareViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
+
+class ProjectMongoDBViewSet(viewsets.ModelViewSet):
+    queryset = ProjectMongoDB.objects.all()
+    serializer_class = ProjectMongoDBSerializer
+
+
+class GetProjectMongoDBViewSet(viewsets.ModelViewSet):
+    queryset = ProjectMongoDB.objects.all()
+    serializer_class = GetProjectMongoDBSerializer
+
+    def list(self, request, *args, **kwargs):
+        env = request.GET.get('env')
+        project = request.GET.get('project')
+        queryset = ProjectMongoDB.objects.filter(env=env,project=project).order_by('type','shard','host__ip')
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ProjectOracleViewSet(viewsets.ModelViewSet):
+    queryset = ProjectOracle.objects.all()
+    serializer_class = ProjectOracleSerializer
+
+
+class GetProjectOracleViewSet(viewsets.ModelViewSet):
+    queryset = ProjectOracle.objects.all()
+    serializer_class = GetProjectOracleSerializer
+
+    def list(self, request, *args, **kwargs):
+        env = request.GET.get('env')
+        project = request.GET.get('project')
+        queryset = ProjectOracle.objects.filter(env=env,project=project).order_by('host__ip')
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class GetDashboardDataView(APIView):
+    def get(self,request):
+        project_count = Project.objects.count()
+        host_count = Host.objects.count()
+        java_package_count = JavaPackage.objects.count()
+        mysqldb_count = MySQLDB.objects.count()
+
+        return Response({'project_count':project_count,'host_count':host_count, 'java_package_count':java_package_count, 'mysqldb_count':mysqldb_count})
