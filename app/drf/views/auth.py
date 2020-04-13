@@ -207,6 +207,8 @@ class getGroupPermsView(APIView):
                         perm_dict.append(perm['permission_id'])
                     if model == 'host':
                         group_objects.append({'object': content_object.ip, 'perms': perm_dict})
+                    else:
+                        group_objects.append({'object': content_object.name, 'perms': perm_dict})
             results.append({'model':model , 'group_objects': group_objects})
         return Response(results)
 

@@ -20,13 +20,6 @@ class JavaPackageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class GetJavaPackageSerializer(serializers.ModelSerializer):
-    project = serializers.CharField(source='project.name')
-    class Meta:
-        model = JavaPackage
-        fields = '__all__'
-
-
 class SoftwareSerializer(serializers.ModelSerializer):
     class Meta:
         model = Software
@@ -41,13 +34,19 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class GetJavaPackageSerializer(serializers.ModelSerializer):
+    project = ProjectSerializer(many=False)
+    class Meta:
+        model = JavaPackage
+        fields = '__all__'
+
+
 class GetProjectSerializer(serializers.ModelSerializer):
     java_package = JavaPackageSerializer(read_only=True,many=True)
     software = SoftwareSerializer(read_only=True,many=True)
     class Meta:
         model = Project
         fields = '__all__'
-
 
 
 class ProjectWebSerializer(serializers.ModelSerializer):
