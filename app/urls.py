@@ -40,5 +40,6 @@ urlpatterns = [
     path('getGroupObjectPerms/', GetGroupObjectPermsView.as_view()),
     path('setGroupObjectPerms/', SetGroupObjectPermsView.as_view()),
     path('getGroupPerms/', GetGroupPermsView.as_view()),
-    path('getDashboardData/', GetDashboardDataView.as_view())
+    path('getDashboardData/', GetDashboardDataView.as_view()),
+    path('getUserInfo/', GetUserInfoView.as_view())
 ]

@@ -212,4 +212,8 @@ class GetGroupPermsView(APIView):
             results.append({'model':model , 'group_objects': group_objects})
         return Response(results)
 
+class GetUserInfoView(APIView):
+    def get(self,request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
 

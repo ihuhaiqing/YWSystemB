@@ -29,3 +29,10 @@ content_type = models.ForeignKey(
 )
 ```
 
+#### 应用注册信息
+
+> client_id: 
+>
+> uJfDugEBMRPFGabdsPUcQ85JMrkO0B0US5nvu7pz
+>
+> client_secret: JNLRcIDlHH3bBzpdy0evZZ36zNh0ghZWHpqNIeDVKH7arwWsvFHyeF2p37sUDLik7knkrPGzXnKBuTlMjG3jyeSQUNBC0veFyPVzqI4YcVYfJDYvhCAB8xsaDpWx8ZkW
