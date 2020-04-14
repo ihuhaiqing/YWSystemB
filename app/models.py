@@ -26,6 +26,7 @@ class Host(models.Model):
 class Account(models.Model):
     username = models.CharField('用户名',max_length=200,unique=True)
     password = models.CharField('密码',max_length=200)
+    addr = models.CharField('地址',max_length=200,blank=True,null=True)
     use = models.CharField('用途',max_length=255)
     created = models.DateTimeField('创建时间',default=timezone.now)
 
