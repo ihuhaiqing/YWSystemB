@@ -7,6 +7,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from app.drf.viewsets import CheckPermViewSet
 from guardian.shortcuts import get_objects_for_user
+from app.models import JavaPackage
 
 
 class TaskViewSet(CheckPermViewSet):
@@ -33,6 +34,7 @@ class TaskViewSet(CheckPermViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
 
 class TaskConsumer(WebsocketConsumer):
     def connect(self):
@@ -62,6 +64,46 @@ class TaskConsumer(WebsocketConsumer):
                 self.send(text_data='连接服务器 %s 失败 %s \n' %(ip,e))
                 continue
             self.send(text_data='开始在服务器 %s 上 %s \n' % (ip,task['name']))
+            stdin, stdout, stderr = s.exec_command(cmd)
+            null_line_count = 0
+            while True:
+                text_data = stdout.readline()
+                self.send(text_data=text_data)
+                if not text_data:
+                    null_line_count += 1
+                if null_line_count == 100:
+                    break
+            s.close()
+        self.send(text_data='closed')
+
+
+class ControlJarConsumer(WebsocketConsumer):
+    def connect(self):
+        self.accept()
+
+    def disconnect(self,close_code):
+        pass
+
+    def receive(self, text_data=None, bytes_data=None):
+        data = json.loads(text_data)
+        print(data)
+        jar = JavaPackage.objects.get(name=data['jar'])
+        hosts = data['hosts']
+        script = '/data/scripts/%s_jar.sh' %data['cmd']
+        cmd = 'sh ' + script + ' ' + data['jar'] + ' 2>&1'
+        for host in hosts:
+            ip = host['ip']
+            username = host['admin']
+            password = host['password']
+            s = paramiko.SSHClient()
+            s.set_missing_host_key_policy(paramiko.AutoAddPolicy)
+            try:
+                s.connect(hostname=ip, username=username, password=password, port=22)
+            except Exception as e:
+                self.send(text_data='连接服务器 %s 失败 %s \n' %(ip,e))
+                continue
+            self.send(text_data='开始在服务器 %s 上执行 \n' % (ip))
+            print(cmd)
             stdin, stdout, stderr = s.exec_command(cmd)
             null_line_count = 0
             while True:
