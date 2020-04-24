@@ -86,8 +86,6 @@ class ControlJarConsumer(WebsocketConsumer):
 
     def receive(self, text_data=None, bytes_data=None):
         data = json.loads(text_data)
-        print(data)
-        jar = JavaPackage.objects.get(name=data['jar'])
         hosts = data['hosts']
         script = '/data/scripts/%s_jar.sh' %data['cmd']
         cmd = 'sh ' + script + ' ' + data['jar'] + ' 2>&1'
