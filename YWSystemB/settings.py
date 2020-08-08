@@ -126,7 +126,7 @@ USE_TZ = True
 
 # STATIC_URL = '/static/'
 STATIC_URL = '/djstatic/'
-STATIC_ROOT = os.path.join(BASE_DIR, "/djstatic")
+STATIC_ROOT = os.path.join(BASE_DIR, "djstatic/")
 
 OAUTH2_PROVIDER = {
     # this is the list of available scopes
