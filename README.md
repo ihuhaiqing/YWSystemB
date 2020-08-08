@@ -125,8 +125,10 @@ docker exec -it ywsystem_django_1 sh -c 'python3.7 manage.py createsuperuser'
 >Client id: uJfDugEBMRPFGabdsPUcQ85JMrkO0B0US5nvu7pz
 >
 >Client secret: JNLRcIDlHH3bBzpdy0evZZ36zNh0ghZWHpqNIeDVKH7arwWsvFHyeF2p37sUDLik7knkrPGzXnKBuTlMjG3jyeSQUNBC0veFyPVzqI4YcVYfJDYvhCAB8xsaDpWx8ZkW
-
-![image-20200808172618448](README.assets/image-20200808172618448.png)
+>
+>Client type: Confidential
+>
+>Authorization grant type: Resource owner password-based
 
 登录 http://ip 验证
 
