@@ -80,10 +80,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'host': '188.188.1.131',
+            'host': 'mysql',
             'database': 'YWSystem',
-            'user': 'django',
-            'password': 'Django2.1'
+            'user': 'root',
+            'password': 'MySQL5.7'
         },
     }
 }

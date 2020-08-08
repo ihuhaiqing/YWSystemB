@@ -4,8 +4,8 @@ from django.utils import timezone
 
 
 class Host(models.Model):
-    name = models.CharField('主机名',max_length=200,unique=True)
-    ip = models.GenericIPAddressField('IP 地址',unique=True)
+    name = models.CharField('主机名',max_length=200)
+    ip = models.GenericIPAddressField('IP 地址')
     version = models.CharField('版本',max_length=200)
     cpu = models.IntegerField('CPU 核数',default=4)
     memory = models.CharField('内存大小',max_length=10,default='8G')
@@ -21,6 +21,9 @@ class Host(models.Model):
 
     def __str__(self):
         return self.ip
+
+    class Meta:
+        unique_together = ['ip', 'type', 'name']
 
 
 class Account(models.Model):

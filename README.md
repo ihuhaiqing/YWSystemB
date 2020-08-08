@@ -19,6 +19,8 @@
 ##### 1、django.contrib.auth.models.Permission
 
 > content_type 添加 related_name='permission'  属性
+>
+> 文件路径: /usr/local/lib/python3.7/site-packages/django/contrib/auth/models.py
 
 ```
 content_type = models.ForeignKey(
