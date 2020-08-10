@@ -71,6 +71,9 @@ class SoftwareViewSet(viewsets.ModelViewSet):
     queryset = Software.objects.all()
     serializer_class = SoftwareSerializer
 
+class EnvViewSet(viewsets.ModelViewSet):
+    queryset = Env.objects.all()
+    serializer_class = EnvSerializer
 
 class ProjectWebViewSet(viewsets.ModelViewSet):
     queryset = ProjectWeb.objects.all()

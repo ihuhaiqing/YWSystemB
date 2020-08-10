@@ -152,3 +152,8 @@ class GetProjectOracleSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectOracle
         fields = '__all__'
+
+class EnvSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Env
+        fields = '__all__'

@@ -35,9 +35,10 @@ class Account(models.Model):
 
 
 class Env(models.Model):
-    name = models.CharField('环境名称',max_length=200,unique=True)
+    name_cn = models.CharField('中文名',max_length=200,unique=True)
+    name_en = models.CharField('英文名',max_length=200,unique=True)
     def __str__(self):
-        return self.name
+        return self.name_cn
 
 
 class Software(models.Model):
