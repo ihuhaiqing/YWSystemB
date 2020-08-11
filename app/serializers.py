@@ -26,9 +26,15 @@ class SoftwareSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class EnvSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Env
+        fields = '__all__'
+
+
 class ProjectSerializer(serializers.ModelSerializer):
     software = serializers.PrimaryKeyRelatedField(queryset=Software.objects.all(),many=True)
-
+    env = serializers.PrimaryKeyRelatedField(queryset=Env.objects.all(),many=True)
     class Meta:
         model = Project
         fields = '__all__'
@@ -44,6 +50,7 @@ class GetJavaPackageSerializer(serializers.ModelSerializer):
 class GetProjectSerializer(serializers.ModelSerializer):
     java_package = JavaPackageSerializer(read_only=True,many=True)
     software = SoftwareSerializer(read_only=True,many=True)
+    env = EnvSerializer(many=True)
     class Meta:
         model = Project
         fields = '__all__'
@@ -153,7 +160,18 @@ class GetProjectOracleSerializer(serializers.ModelSerializer):
         model = ProjectOracle
         fields = '__all__'
 
-class EnvSerializer(serializers.ModelSerializer):
+
+class ProjectJarSerialize(serializers.ModelSerializer):
+    host = serializers.PrimaryKeyRelatedField(queryset=Host.objects.all(), many=True)
+
     class Meta:
-        model = Env
+        model = ProjectJar
+        fields = '__all__'
+
+
+class GetProjectJarSerializer(serializers.ModelSerializer):
+    host = HostSerializer(many=True)
+
+    class Meta:
+        model = ProjectJar
         fields = '__all__'

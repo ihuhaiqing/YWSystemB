@@ -290,3 +290,20 @@ class GetDashboardDataView(APIView):
         mysqldb_count = MySQLDB.objects.count()
 
         return Response({'project_count':project_count,'host_count':host_count, 'java_package_count':java_package_count, 'mysqldb_count':mysqldb_count})
+
+
+class ProjectJarViewSet(viewsets.ModelViewSet):
+    queryset = ProjectJar.objects.all()
+    serializer_class = ProjectJarSerialize
+
+
+class GetProjectJarViewSet(viewsets.ModelViewSet):
+    queryset = ProjectJar.objects.all()
+    serializer_class = ProjectJarSerialize
+
+    def list(self, request, *args, **kwargs):
+        env = request.GET.get('env')
+        project = request.GET.get('project')
+        queryset = ProjectJar.objects.filter(env=env, project=project).order_by('host__ip')
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)

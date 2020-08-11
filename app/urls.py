@@ -32,6 +32,8 @@ router.register(r'getProjectMongoDB', GetProjectMongoDBViewSet)
 router.register(r'projectOracle', ProjectOracleViewSet)
 router.register(r'getProjectOracle', GetProjectOracleViewSet)
 router.register(r'getEnv', EnvViewSet)
+router.register(r'projectJar', ProjectJarViewSet)
+router.register(r'getProjectJar', GetProjectJarViewSet)
 
 
 urlpatterns = [
