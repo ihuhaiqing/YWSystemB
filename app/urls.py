@@ -34,10 +34,13 @@ router.register(r'getProjectOracle', GetProjectOracleViewSet)
 router.register(r'getEnv', EnvViewSet)
 router.register(r'projectJar', ProjectJarViewSet)
 router.register(r'getProjectJar', GetProjectJarViewSet)
+router.register(r'projectWar', ProjectWarViewSet)
+router.register(r'getProjectWar', GetProjectWarViewSet)
+router.register(r'projectRedis', ProjectRedisViewSet)
 
 
 urlpatterns = [
-    path('',include(router.urls)),
+    path('', include(router.urls)),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('changeMyPassword/',UserPassword.as_view()),
     path('getGroupObjectPerms/', GetGroupObjectPermsView.as_view()),

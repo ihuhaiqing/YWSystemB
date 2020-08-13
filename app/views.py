@@ -299,11 +299,40 @@ class ProjectJarViewSet(viewsets.ModelViewSet):
 
 class GetProjectJarViewSet(viewsets.ModelViewSet):
     queryset = ProjectJar.objects.all()
-    serializer_class = ProjectJarSerialize
+    serializer_class = GetProjectJarSerializer
 
     def list(self, request, *args, **kwargs):
         env = request.GET.get('env')
         project = request.GET.get('project')
-        queryset = ProjectJar.objects.filter(env=env, project=project).order_by('host__ip')
+        queryset = ProjectJar.objects.filter(env=env, project=project)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ProjectWarViewSet(viewsets.ModelViewSet):
+    queryset = ProjectWar.objects.all()
+    serializer_class = ProjectWarSerialize
+
+
+class GetProjectWarViewSet(viewsets.ModelViewSet):
+    queryset = ProjectWar.objects.all()
+    serializer_class = GetProjectWarSerializer
+
+    def list(self, request, *args, **kwargs):
+        env = request.GET.get('env')
+        project = request.GET.get('project')
+        queryset = ProjectWar.objects.filter(env=env, project=project)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ProjectRedisViewSet(viewsets.ModelViewSet):
+    queryset = ProjectRedis.objects.all()
+    serializer_class = ProjectRedisSerialize
+
+    def list(self, request, *args, **kwargs):
+        env = request.GET.get('env')
+        project = request.GET.get('project')
+        queryset = ProjectRedis.objects.filter(env=env, project=project)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)

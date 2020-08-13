@@ -170,8 +170,30 @@ class ProjectJarSerialize(serializers.ModelSerializer):
 
 
 class GetProjectJarSerializer(serializers.ModelSerializer):
-    host = HostSerializer(many=True)
+    host = HostSerializer(read_only=True, many=True)
 
     class Meta:
         model = ProjectJar
+        fields = '__all__'
+
+
+class ProjectWarSerialize(serializers.ModelSerializer):
+    host = serializers.PrimaryKeyRelatedField(queryset=Host.objects.all(), many=True)
+
+    class Meta:
+        model = ProjectWar
+        fields = '__all__'
+
+
+class GetProjectWarSerializer(serializers.ModelSerializer):
+    host = HostSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = ProjectWar
+        fields = '__all__'
+
+
+class ProjectRedisSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectRedis
         fields = '__all__'
