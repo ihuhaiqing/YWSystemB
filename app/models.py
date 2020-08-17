@@ -109,18 +109,18 @@ class MySQLDB(models.Model):
 
 
 class ProjectMySQLDB(models.Model):
-    mysqldb = models.ForeignKey(MySQLDB,related_name='project_mysql',on_delete=models.PROTECT)
-    env = models.CharField('环境',max_length=200)
-    host = models.ForeignKey(Host,on_delete=models.PROTECT)
-    version = models.CharField('版本',max_length=200,default='MySQL 5.7')
-    port = models.IntegerField(default=3306)
-    role = models.CharField('角色',max_length=200)
-    root_password = models.CharField('ROOT 密码',max_length=200)
-    data_dir = models.CharField('数据目录',max_length=200)
+    name = models.CharField('数据库名', max_length=200)
+    addr = models.CharField('地址', max_length=200)
+    port = models.CharField('端口号', max_length=200, blank=True)
+    dir = models.CharField('路径', max_length=200, blank=True)
+    role = models.CharField('角色', max_length=200)
+    username = models.CharField('用户名', max_length=200)
+    password = models.CharField('密码', max_length=200)
+    env = models.CharField('环境', max_length=200)
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    method = models.CharField('部署方式', max_length=200, default='normal')
+    origin = models.CharField('来源', max_length=200, default='自建')
     created = models.DateTimeField('创建时间', default=timezone.now)
-
-    class Meta:
-        unique_together = ['mysqldb','host']
 
 
 class Task(models.Model):
@@ -175,6 +175,7 @@ class ProjectJar(models.Model):
     env = models.CharField('环境', max_length=200)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     host = models.ManyToManyField(Host)
+    method = models.CharField('部署方式', max_length=200, default='normal')
     created = models.DateTimeField('创建时间', default=timezone.now)
 
 
@@ -188,6 +189,28 @@ class ProjectWar(models.Model):
     created = models.DateTimeField('创建时间', default=timezone.now)
 
 
+class ProjectDotnet(models.Model):
+    name = models.CharField('名称', max_length=200)
+    dir = models.CharField('路径', max_length=200)
+    port = models.CharField('端口号', max_length=200)
+    env = models.CharField('环境', max_length=200)
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    host = models.ManyToManyField(Host)
+    method = models.CharField('部署方式', max_length=200, default='normal')
+    created = models.DateTimeField('创建时间', default=timezone.now)
+
+
+class ProjectPHP(models.Model):
+    name = models.CharField('名称', max_length=200)
+    dir = models.CharField('路径', max_length=200)
+    port = models.CharField('端口号', max_length=200)
+    env = models.CharField('环境', max_length=200)
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    host = models.ManyToManyField(Host)
+    method = models.CharField('部署方式', max_length=200, default='normal')
+    created = models.DateTimeField('创建时间', default=timezone.now)
+
+
 class ProjectRedis(models.Model):
     addr = models.CharField('地址', max_length=200)
     port = models.CharField('端口号', max_length=200)
@@ -196,5 +219,6 @@ class ProjectRedis(models.Model):
     password = models.CharField('密码', max_length=200)
     env = models.CharField('环境', max_length=200)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    method = models.CharField('部署方式', max_length=200, default='normal')
     created = models.DateTimeField('创建时间', default=timezone.now)
 

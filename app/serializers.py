@@ -92,25 +92,25 @@ class ProjectMySQLDBSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class GetProjectMySQLDBSerializer(serializers.ModelSerializer):
-    host = HostSerializer(many=False)
-    class Meta:
-        model = ProjectMySQLDB
-        fields = '__all__'
+# class GetProjectMySQLDBSerializer(serializers.ModelSerializer):
+#     host = HostSerializer(many=False)
+#     class Meta:
+#         model = ProjectMySQLDB
+#         fields = '__all__'
 
 
-class MySQLDBSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MySQLDB
-        fields = '__all__'
-
-
-class GetMySQLDBSerializer(serializers.ModelSerializer):
-    project = GetProjectSerializer(many=False)
-    project_mysql = GetProjectMySQLDBSerializer(read_only=True,many=True)
-    class Meta:
-        model = MySQLDB
-        fields = '__all__'
+# class MySQLDBSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = MySQLDB
+#         fields = '__all__'
+#
+#
+# class GetMySQLDBSerializer(serializers.ModelSerializer):
+#     project = GetProjectSerializer(many=False)
+#     project_mysql = GetProjectMySQLDBSerializer(read_only=True,many=True)
+#     class Meta:
+#         model = MySQLDB
+#         fields = '__all__'
 
 
 class ProjectGeneralSoftwareSerializer(serializers.ModelSerializer):
@@ -196,4 +196,32 @@ class GetProjectWarSerializer(serializers.ModelSerializer):
 class ProjectRedisSerialize(serializers.ModelSerializer):
     class Meta:
         model = ProjectRedis
+        fields = '__all__'
+
+
+class GetProjectDotnetSerializer(serializers.ModelSerializer):
+    host = HostSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = ProjectDotnet
+        fields = '__all__'
+
+
+class ProjectDotnetSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectDotnet
+        fields = '__all__'
+
+
+class GetProjectPHPSerializer(serializers.ModelSerializer):
+    host = HostSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = ProjectPHP
+        fields = '__all__'
+
+
+class ProjectPHPSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectPHP
         fields = '__all__'
