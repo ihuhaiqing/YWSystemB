@@ -68,8 +68,6 @@ services:
       - /data/YWSystemF:/usr/share/nginx/html
     ports:
       - "80:80"
-    depends_on:
-      - mysql
 ```
 
 在目录 /data/YWSystemB 中拉取后端代码
