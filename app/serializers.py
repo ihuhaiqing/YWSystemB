@@ -92,6 +92,18 @@ class ProjectMySQLDBSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ProjectRabbitmqSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectRabbitmq
+        fields = '__all__'
+
+
+class ProjectActivemqSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectActivemq
+        fields = '__all__'
+
+
 # class GetProjectMySQLDBSerializer(serializers.ModelSerializer):
 #     host = HostSerializer(many=False)
 #     class Meta:
@@ -196,6 +208,24 @@ class GetProjectWarSerializer(serializers.ModelSerializer):
 class ProjectRedisSerialize(serializers.ModelSerializer):
     class Meta:
         model = ProjectRedis
+        fields = '__all__'
+
+
+class ProjectKafkaSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectKafka
+        fields = '__all__'
+
+
+class ProjectSQLServerSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectSQLServer
+        fields = '__all__'
+
+
+class ProjectZookeeperSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectZookeeper
         fields = '__all__'
 
 

@@ -210,6 +210,66 @@ class ProjectMySQLDBViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+class ProjectRabbitmqViewSet(viewsets.ModelViewSet):
+    queryset = ProjectRabbitmq.objects.all()
+    serializer_class = ProjectRabbitmqSerializer
+
+    def list(self, request, *args, **kwargs):
+        env = request.GET.get('env')
+        project = request.GET.get('project')
+        queryset = ProjectRabbitmq.objects.filter(env=env, project=project)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ProjectActivemqViewSet(viewsets.ModelViewSet):
+    queryset = ProjectActivemq.objects.all()
+    serializer_class = ProjectActivemqSerializer
+
+    def list(self, request, *args, **kwargs):
+        env = request.GET.get('env')
+        project = request.GET.get('project')
+        queryset = ProjectActivemq.objects.filter(env=env, project=project)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ProjectKafkaViewSet(viewsets.ModelViewSet):
+    queryset = ProjectKafka.objects.all()
+    serializer_class = ProjectKafkaSerialize
+
+    def list(self, request, *args, **kwargs):
+        env = request.GET.get('env')
+        project = request.GET.get('project')
+        queryset = ProjectKafka.objects.filter(env=env, project=project)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ProjectZookeeperViewSet(viewsets.ModelViewSet):
+    queryset = ProjectZookeeper.objects.all()
+    serializer_class = ProjectZookeeperSerialize
+
+    def list(self, request, *args, **kwargs):
+        env = request.GET.get('env')
+        project = request.GET.get('project')
+        queryset = ProjectZookeeper.objects.filter(env=env, project=project)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ProjectSQLServerViewSet(viewsets.ModelViewSet):
+    queryset = ProjectSQLServer.objects.all()
+    serializer_class = ProjectSQLServerSerialize
+
+    def list(self, request, *args, **kwargs):
+        env = request.GET.get('env')
+        project = request.GET.get('project')
+        queryset = ProjectSQLServer.objects.filter(env=env, project=project)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
 class ProjectGeneralSoftwareViewSet(viewsets.ModelViewSet):
     queryset = ProjectGeneralSoftware.objects.all()
     serializer_class = ProjectGeneralSoftwareSerializer
