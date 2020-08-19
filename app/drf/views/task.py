@@ -7,7 +7,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from app.drf.viewsets import CheckPermViewSet
 from guardian.shortcuts import get_objects_for_user
-from app.models import JavaPackage
+# from app.models import JavaPackage
 
 
 class TaskViewSet(CheckPermViewSet):

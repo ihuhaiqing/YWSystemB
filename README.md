@@ -68,6 +68,8 @@ services:
       - /data/YWSystemF:/usr/share/nginx/html
     ports:
       - "80:80"
+    depends_on:
+      - mysql
 ```
 
 在目录 /data/YWSystemB 中拉取后端代码
@@ -106,24 +108,10 @@ docker exec ywsystem_django_1 sh -c 'python3.7 manage.py makemigrations'
 docker exec ywsystem_django_1 sh -c 'python3.7 manage.py migrate'
 ```
 
-初始化软件数据
+可以使用的组成系统的模块
 
 ```
-INSERT INTO `app_software` VALUES (8, 'activemq');
-INSERT INTO `app_software` VALUES (3, 'apache');
-INSERT INTO `app_software` VALUES (4, 'dotnet');
-INSERT INTO `app_software` VALUES (10, 'jar');
-INSERT INTO `app_software` VALUES (14, 'kafka');
-INSERT INTO `app_software` VALUES (12, 'mongodb');
-INSERT INTO `app_software` VALUES (5, 'mysql');
-INSERT INTO `app_software` VALUES (2, 'nginx');
-INSERT INTO `app_software` VALUES (9, 'php');
-INSERT INTO `app_software` VALUES (7, 'rabbitmq');
-INSERT INTO `app_software` VALUES (6, 'redis');
-INSERT INTO `app_software` VALUES (15, 'sqlserver');
-INSERT INTO `app_software` VALUES (1, 'tomcat');
-INSERT INTO `app_software` VALUES (11, 'war');
-INSERT INTO `app_software` VALUES (13, 'zookeeper');
+activemq jar nginx python tomcat apache kafka oracle rabbitmq war dotnet mongodb php redis zookeeper general mysql ProjectList sqlserver 
 ```
 
 提取 django 静态文件
