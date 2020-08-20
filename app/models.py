@@ -9,6 +9,7 @@ class Account(models.Model):
     password = models.CharField('密码', max_length=200)
     addr = models.CharField('地址', max_length=200, blank=True, null=True)
     use = models.CharField('用途', max_length=255)
+    remark = models.CharField('备注', max_length=255, blank=True)
     created = models.DateTimeField('创建时间', default=timezone.now)
 
 
@@ -33,7 +34,9 @@ class Software(models.Model):
 # 主机
 class Host(models.Model):
     name = models.CharField('主机名', max_length=200)
-    ip = models.GenericIPAddressField('IP 地址')
+    ip = models.GenericIPAddressField('内网 IP')
+    outside_ip = models.GenericIPAddressField('外网 IP', default='0.0.0.0')
+    manage_port = models.IntegerField('管理端口号', default=22)
     version = models.CharField('版本', max_length=200)
     cpu = models.IntegerField('CPU 核数', default=4)
     memory = models.CharField('内存大小', max_length=10, default='8G')
