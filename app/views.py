@@ -67,7 +67,7 @@ class HostViewSet(CheckPermViewSet):
         ip = request.GET.get('ip')
         type = request.GET.get('type')
         env = request.GET.get('env')
-        objects = Host.objects.filter(ip__contains=ip,type__contains=type,env__contains=env).order_by('ip')
+        objects = Host.objects.filter(ip__contains=ip, type__contains=type, env__contains=env).order_by('ip')
         queryset = get_objects_for_user(request.user, 'app.view_%s' % self.basename, objects)
         page = self.paginate_queryset(queryset)
 
