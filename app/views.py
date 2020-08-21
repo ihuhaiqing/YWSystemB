@@ -13,7 +13,7 @@ from app.models import Project, Host
 # 用户
 class AccountViewSet(CheckPermViewSet):
     queryset = Account.objects.all()
-    serializer_class = AccountSerialize
+    serializer_class = AccountSerializer
     pagination_class = PageNumberPagination
 
     def list(self, request, *args, **kwargs):
@@ -84,7 +84,7 @@ class HostViewSet(CheckPermViewSet):
 # MySQL 实例
 class MySQLInstanceViewSet(CheckPermViewSet):
     queryset = MySQLInstance.objects.all()
-    serializer_class = MySQLInstanceSerialize
+    serializer_class = MySQLInstanceSerializer
     pagination_class = PageNumberPagination
 
     def list(self, request, *args, **kwargs):
@@ -111,7 +111,7 @@ class MySQLInstanceViewSet(CheckPermViewSet):
 # Redis 实例
 class RedisInstanceViewSet(CheckPermViewSet):
     queryset = RedisInstance.objects.all()
-    serializer_class = RedisInstanceSerialize
+    serializer_class = RedisInstanceSerializer
     pagination_class = PageNumberPagination
 
     def list(self, request, *args, **kwargs):
@@ -138,7 +138,7 @@ class RedisInstanceViewSet(CheckPermViewSet):
 # Zookeeper 实例
 class ZookeeperInstanceViewSet(CheckPermViewSet):
     queryset = ZookeeperInstance.objects.all()
-    serializer_class = ZookeeperInstanceSerialize
+    serializer_class = ZookeeperInstanceSerializer
     pagination_class = PageNumberPagination
 
     def list(self, request, *args, **kwargs):
@@ -165,7 +165,7 @@ class ZookeeperInstanceViewSet(CheckPermViewSet):
 # Activemq 实例
 class ActivemqInstanceViewSet(CheckPermViewSet):
     queryset = ActivemqInstance.objects.all()
-    serializer_class = ActivemqInstanceSerialize
+    serializer_class = ActivemqInstanceSerializer
     pagination_class = PageNumberPagination
 
     def list(self, request, *args, **kwargs):
@@ -192,7 +192,7 @@ class ActivemqInstanceViewSet(CheckPermViewSet):
 # Rabbitmq 实例
 class RabbitmqInstanceViewSet(CheckPermViewSet):
     queryset = RabbitmqInstance.objects.all()
-    serializer_class = RabbitmqInstanceSerialize
+    serializer_class = RabbitmqInstanceSerializer
     pagination_class = PageNumberPagination
 
     def list(self, request, *args, **kwargs):
@@ -254,9 +254,9 @@ class GetProjectWebViewSet(viewsets.ModelViewSet):
 
 
 # Project MySQL
-class ProjectMySQLDBViewSet(viewsets.ModelViewSet):
+class GetProjectMySQLDBViewSet(viewsets.ModelViewSet):
     queryset = ProjectMySQLDB.objects.all()
-    serializer_class = ProjectMySQLDBSerializer
+    serializer_class = GetProjectMySQLDBSerializer
 
     def list(self, request, *args, **kwargs):
         env = request.GET.get('env')
@@ -266,10 +266,15 @@ class ProjectMySQLDBViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+class ProjectMySQLDBViewSet(viewsets.ModelViewSet):
+    queryset = ProjectMySQLDB.objects.all()
+    serializer_class = ProjectMySQLDBSerializer
+
+
 # Project SQLServer
 class ProjectSQLServerViewSet(viewsets.ModelViewSet):
     queryset = ProjectSQLServer.objects.all()
-    serializer_class = ProjectSQLServerSerialize
+    serializer_class = ProjectSQLServerSerializer
 
     def list(self, request, *args, **kwargs):
         env = request.GET.get('env')
@@ -330,7 +335,12 @@ class GetProjectOracleViewSet(viewsets.ModelViewSet):
 # Project Redis
 class ProjectRedisViewSet(viewsets.ModelViewSet):
     queryset = ProjectRedis.objects.all()
-    serializer_class = ProjectRedisSerialize
+    serializer_class = ProjectRedisSerializer
+
+
+class GetProjectRedisViewSet(viewsets.ModelViewSet):
+    queryset = ProjectRedis.objects.all()
+    serializer_class = GetProjectRedisSerializer
 
     def list(self, request, *args, **kwargs):
         env = request.GET.get('env')
@@ -343,7 +353,7 @@ class ProjectRedisViewSet(viewsets.ModelViewSet):
 # Project Jar
 class ProjectJarViewSet(viewsets.ModelViewSet):
     queryset = ProjectJar.objects.all()
-    serializer_class = ProjectJarSerialize
+    serializer_class = ProjectJarSerializer
 
 
 class GetProjectJarViewSet(viewsets.ModelViewSet):
@@ -361,7 +371,7 @@ class GetProjectJarViewSet(viewsets.ModelViewSet):
 # Project War
 class ProjectWarViewSet(viewsets.ModelViewSet):
     queryset = ProjectWar.objects.all()
-    serializer_class = ProjectWarSerialize
+    serializer_class = ProjectWarSerializer
 
 
 class GetProjectWarViewSet(viewsets.ModelViewSet):
@@ -379,7 +389,7 @@ class GetProjectWarViewSet(viewsets.ModelViewSet):
 # ProjectDotnet
 class ProjectDotnetViewSet(viewsets.ModelViewSet):
     queryset = ProjectDotnet.objects.all()
-    serializer_class = ProjectDotnetSerialize
+    serializer_class = ProjectDotnetSerializer
 
 
 class GetProjectDotnetViewSet(viewsets.ModelViewSet):
@@ -397,7 +407,7 @@ class GetProjectDotnetViewSet(viewsets.ModelViewSet):
 # ProjectPHP
 class ProjectPHPViewSet(viewsets.ModelViewSet):
     queryset = ProjectPHP.objects.all()
-    serializer_class = ProjectPHPSerialize
+    serializer_class = ProjectPHPSerializer
 
 
 class GetProjectPHPViewSet(viewsets.ModelViewSet):
@@ -415,7 +425,7 @@ class GetProjectPHPViewSet(viewsets.ModelViewSet):
 # Project Python
 class ProjectPythonViewSet(viewsets.ModelViewSet):
     queryset = ProjectPython.objects.all()
-    serializer_class = ProjectPythonSerialize
+    serializer_class = ProjectPythonSerializer
 
 
 class GetProjectPythonViewSet(viewsets.ModelViewSet):
@@ -435,6 +445,11 @@ class ProjectRabbitmqViewSet(viewsets.ModelViewSet):
     queryset = ProjectRabbitmq.objects.all()
     serializer_class = ProjectRabbitmqSerializer
 
+
+class GetProjectRabbitmqViewSet(viewsets.ModelViewSet):
+    queryset = ProjectRabbitmq.objects.all()
+    serializer_class = GetProjectRabbitmqSerializer
+
     def list(self, request, *args, **kwargs):
         env = request.GET.get('env')
         project = request.GET.get('project')
@@ -448,6 +463,11 @@ class ProjectActivemqViewSet(viewsets.ModelViewSet):
     queryset = ProjectActivemq.objects.all()
     serializer_class = ProjectActivemqSerializer
 
+
+class GetProjectActivemqViewSet(viewsets.ModelViewSet):
+    queryset = ProjectActivemq.objects.all()
+    serializer_class = GetProjectActivemqSerializer
+
     def list(self, request, *args, **kwargs):
         env = request.GET.get('env')
         project = request.GET.get('project')
@@ -459,7 +479,7 @@ class ProjectActivemqViewSet(viewsets.ModelViewSet):
 # Project Kafka
 class ProjectKafkaViewSet(viewsets.ModelViewSet):
     queryset = ProjectKafka.objects.all()
-    serializer_class = ProjectKafkaSerialize
+    serializer_class = ProjectKafkaSerializer
 
     def list(self, request, *args, **kwargs):
         env = request.GET.get('env')
@@ -472,7 +492,12 @@ class ProjectKafkaViewSet(viewsets.ModelViewSet):
 # Project Zookeeper
 class ProjectZookeeperViewSet(viewsets.ModelViewSet):
     queryset = ProjectZookeeper.objects.all()
-    serializer_class = ProjectZookeeperSerialize
+    serializer_class = ProjectZookeeperSerializer
+
+
+class GetProjectZookeeperViewSet(viewsets.ModelViewSet):
+    queryset = ProjectZookeeper.objects.all()
+    serializer_class = GetProjectZookeeperSerializer
 
     def list(self, request, *args, **kwargs):
         env = request.GET.get('env')

@@ -2,7 +2,7 @@ from app.models import *
 from rest_framework import serializers
 
 
-class AccountSerialize(serializers.ModelSerializer):
+class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = '__all__'
@@ -22,35 +22,35 @@ class EnvSerializer(serializers.ModelSerializer):
 
 # ------------------------------------------ 实例 ----------------------------------------------
 # MySQL 实例
-class MySQLInstanceSerialize(serializers.ModelSerializer):
+class MySQLInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = MySQLInstance
         fields = '__all__'
 
 
 # Redis 实例
-class RedisInstanceSerialize(serializers.ModelSerializer):
+class RedisInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = RedisInstance
         fields = '__all__'
 
 
 # Zookeeper 实例
-class ZookeeperInstanceSerialize(serializers.ModelSerializer):
+class ZookeeperInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = ZookeeperInstance
         fields = '__all__'
 
 
 # Activemq 实例
-class ActivemqInstanceSerialize(serializers.ModelSerializer):
+class ActivemqInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = ActivemqInstance
         fields = '__all__'
 
 
 # Rabbitmq 实例
-class RabbitmqInstanceSerialize(serializers.ModelSerializer):
+class RabbitmqInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = RabbitmqInstance
         fields = '__all__'
@@ -84,7 +84,7 @@ class GetProjectSerializer(serializers.ModelSerializer):
 
 # Project Web
 class ProjectWebSerializer(serializers.ModelSerializer):
-    host = serializers.PrimaryKeyRelatedField(queryset=Host.objects.all(),write_only=True,many=True)
+    host = serializers.PrimaryKeyRelatedField(queryset=Host.objects.all(), write_only=True,many=True)
 
     class Meta:
         model = ProjectWeb
@@ -92,7 +92,7 @@ class ProjectWebSerializer(serializers.ModelSerializer):
 
 
 class GetProjectWebSerializer(serializers.ModelSerializer):
-    host = HostSerializer(read_only=True,many=True)
+    host = HostSerializer(read_only=True, many=True)
 
     class Meta:
         model = ProjectWeb
@@ -101,6 +101,15 @@ class GetProjectWebSerializer(serializers.ModelSerializer):
 
 # Project MysSQL
 class ProjectMySQLDBSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProjectMySQLDB
+        fields = '__all__'
+
+
+class GetProjectMySQLDBSerializer(serializers.ModelSerializer):
+    instance = MySQLInstanceSerializer(read_only=True, many=False)
+
     class Meta:
         model = ProjectMySQLDB
         fields = '__all__'
@@ -145,21 +154,29 @@ class GetProjectOracleSerializer(serializers.ModelSerializer):
 
 
 # Project SQLServer
-class ProjectSQLServerSerialize(serializers.ModelSerializer):
+class ProjectSQLServerSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectSQLServer
         fields = '__all__'
 
 
 # Project Redis
-class ProjectRedisSerialize(serializers.ModelSerializer):
+class ProjectRedisSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectRedis
+        fields = '__all__'
+
+
+class GetProjectRedisSerializer(serializers.ModelSerializer):
+    instance = RedisInstanceSerializer(read_only=True, many=False)
+
     class Meta:
         model = ProjectRedis
         fields = '__all__'
 
 
 # Project Jar
-class ProjectJarSerialize(serializers.ModelSerializer):
+class ProjectJarSerializer(serializers.ModelSerializer):
     host = serializers.PrimaryKeyRelatedField(queryset=Host.objects.all(), many=True)
 
     class Meta:
@@ -176,7 +193,7 @@ class GetProjectJarSerializer(serializers.ModelSerializer):
 
 
 # Project War
-class ProjectWarSerialize(serializers.ModelSerializer):
+class ProjectWarSerializer(serializers.ModelSerializer):
     host = serializers.PrimaryKeyRelatedField(queryset=Host.objects.all(), many=True)
 
     class Meta:
@@ -201,7 +218,7 @@ class GetProjectDotnetSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ProjectDotnetSerialize(serializers.ModelSerializer):
+class ProjectDotnetSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectDotnet
         fields = '__all__'
@@ -216,7 +233,7 @@ class GetProjectPHPSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ProjectPHPSerialize(serializers.ModelSerializer):
+class ProjectPHPSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectPHP
         fields = '__all__'
@@ -231,7 +248,7 @@ class GetProjectPythonSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ProjectPythonSerialize(serializers.ModelSerializer):
+class ProjectPythonSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectPython
         fields = '__all__'
@@ -244,6 +261,14 @@ class ProjectRabbitmqSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class GetProjectRabbitmqSerializer(serializers.ModelSerializer):
+    instance = RabbitmqInstanceSerializer(read_only=True, many=False)
+
+    class Meta:
+        model = ProjectRabbitmq
+        fields = '__all__'
+
+
 # Project Activemq
 class ProjectActivemqSerializer(serializers.ModelSerializer):
     class Meta:
@@ -251,15 +276,31 @@ class ProjectActivemqSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class GetProjectActivemqSerializer(serializers.ModelSerializer):
+    instance = ActivemqInstanceSerializer(read_only=True, many=False)
+
+    class Meta:
+        model = ProjectActivemq
+        fields = '__all__'
+
+
 # Project Kafka
-class ProjectKafkaSerialize(serializers.ModelSerializer):
+class ProjectKafkaSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectKafka
         fields = '__all__'
 
 
 # Project Zookeeper
-class ProjectZookeeperSerialize(serializers.ModelSerializer):
+class ProjectZookeeperSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectZookeeper
+        fields = '__all__'
+
+
+class GetProjectZookeeperSerializer(serializers.ModelSerializer):
+    instance = ZookeeperInstanceSerializer(read_only=True, many=False)
+
     class Meta:
         model = ProjectZookeeper
         fields = '__all__'

@@ -155,16 +155,11 @@ class ProjectWeb(models.Model):
 # MySQL
 class ProjectMySQLDB(models.Model):
     name = models.CharField('数据库名', max_length=200)
-    addr = models.CharField('地址', max_length=200)
-    port = models.CharField('端口号', max_length=200, blank=True)
-    dir = models.CharField('路径', max_length=200, blank=True)
-    role = models.CharField('角色', max_length=200)
+    instance = models.ForeignKey(MySQLInstance, on_delete=models.PROTECT)
     username = models.CharField('用户名', max_length=200)
     password = models.CharField('密码', max_length=200)
     env = models.CharField('环境', max_length=200)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
-    method = models.CharField('部署方式', max_length=200, default='normal')
-    origin = models.CharField('来源', max_length=200, default='自建')
     created = models.DateTimeField('创建时间', default=timezone.now)
 
 
@@ -188,7 +183,7 @@ class ProjectOracle(models.Model):
     env = models.CharField('环境', max_length=200)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     host = models.ForeignKey(Host,on_delete=models.PROTECT)
-    type = models.CharField('类别',max_length=200)
+    type = models.CharField('类别', max_length=200)
     created = models.DateTimeField('创建时间', default=timezone.now)
 
     class Meta:
@@ -210,6 +205,7 @@ class ProjectSQLServer(models.Model):
 
 # Redis
 class ProjectRedis(models.Model):
+    instance = models.ForeignKey(RedisInstance, on_delete=models.PROTECT)
     addr = models.CharField('地址', max_length=200)
     port = models.CharField('端口号', max_length=200)
     dir = models.CharField('路径', max_length=200, blank=True)
@@ -283,6 +279,7 @@ class ProjectPython(models.Model):
 
 # Rabbitmq
 class ProjectRabbitmq(models.Model):
+    instance = models.ForeignKey(RabbitmqInstance, on_delete=models.PROTECT)
     addr = models.CharField('地址', max_length=200)
     port = models.CharField('端口号', max_length=200, blank=True)
     dir = models.CharField('路径', max_length=200, blank=True)
@@ -297,6 +294,7 @@ class ProjectRabbitmq(models.Model):
 
 # Activemq
 class ProjectActivemq(models.Model):
+    instance = models.ForeignKey(ActivemqInstance, on_delete=models.PROTECT)
     addr = models.CharField('地址', max_length=200)
     port = models.CharField('端口号', max_length=200, blank=True)
     dir = models.CharField('路径', max_length=200, blank=True)
@@ -323,6 +321,7 @@ class ProjectKafka(models.Model):
 
 # Zookeeper
 class ProjectZookeeper(models.Model):
+    instance = models.ForeignKey(ZookeeperInstance, on_delete=models.PROTECT)
     addr = models.CharField('地址', max_length=200)
     port = models.CharField('端口号', max_length=200, blank=True)
     dir = models.CharField('路径', max_length=200, blank=True)
