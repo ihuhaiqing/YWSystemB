@@ -206,15 +206,8 @@ class ProjectSQLServer(models.Model):
 # Redis
 class ProjectRedis(models.Model):
     instance = models.ForeignKey(RedisInstance, on_delete=models.PROTECT)
-    addr = models.CharField('地址', max_length=200)
-    port = models.CharField('端口号', max_length=200)
-    dir = models.CharField('路径', max_length=200, blank=True)
-    cluster = models.CharField('集群名', max_length=200, blank=True)
-    password = models.CharField('密码', max_length=200)
     env = models.CharField('环境', max_length=200)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
-    method = models.CharField('部署方式', max_length=200, default='normal')
-    origin = models.CharField('来源', max_length=200, default='自建')
     created = models.DateTimeField('创建时间', default=timezone.now)
 
 
@@ -280,30 +273,16 @@ class ProjectPython(models.Model):
 # Rabbitmq
 class ProjectRabbitmq(models.Model):
     instance = models.ForeignKey(RabbitmqInstance, on_delete=models.PROTECT)
-    addr = models.CharField('地址', max_length=200)
-    port = models.CharField('端口号', max_length=200, blank=True)
-    dir = models.CharField('路径', max_length=200, blank=True)
-    username = models.CharField('用户名', max_length=200)
-    password = models.CharField('密码', max_length=200)
     env = models.CharField('环境', max_length=200)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
-    method = models.CharField('部署方式', max_length=200, default='normal')
-    origin = models.CharField('来源', max_length=200, default='自建')
     created = models.DateTimeField('创建时间', default=timezone.now)
 
 
 # Activemq
 class ProjectActivemq(models.Model):
     instance = models.ForeignKey(ActivemqInstance, on_delete=models.PROTECT)
-    addr = models.CharField('地址', max_length=200)
-    port = models.CharField('端口号', max_length=200, blank=True)
-    dir = models.CharField('路径', max_length=200, blank=True)
-    username = models.CharField('用户名', max_length=200)
-    password = models.CharField('密码', max_length=200)
     env = models.CharField('环境', max_length=200)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
-    method = models.CharField('部署方式', max_length=200, default='normal')
-    origin = models.CharField('来源', max_length=200, default='自建')
     created = models.DateTimeField('创建时间', default=timezone.now)
 
 
@@ -322,13 +301,8 @@ class ProjectKafka(models.Model):
 # Zookeeper
 class ProjectZookeeper(models.Model):
     instance = models.ForeignKey(ZookeeperInstance, on_delete=models.PROTECT)
-    addr = models.CharField('地址', max_length=200)
-    port = models.CharField('端口号', max_length=200, blank=True)
-    dir = models.CharField('路径', max_length=200, blank=True)
     env = models.CharField('环境', max_length=200)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
-    method = models.CharField('部署方式', max_length=200, default='normal')
-    origin = models.CharField('来源', max_length=200, default='自建')
     created = models.DateTimeField('创建时间', default=timezone.now)
 
 
