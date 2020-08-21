@@ -155,7 +155,7 @@ class ProjectWeb(models.Model):
 # MySQL
 class ProjectMySQLDB(models.Model):
     name = models.CharField('数据库名', max_length=200)
-    instance = models.ForeignKey(MySQLInstance, on_delete=models.PROTECT)
+    instance = models.ForeignKey(MySQLInstance, on_delete=models.PROTECT, blank=True)
     username = models.CharField('用户名', max_length=200)
     password = models.CharField('密码', max_length=200)
     env = models.CharField('环境', max_length=200)
@@ -169,7 +169,7 @@ class ProjectMongoDB(models.Model):
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     host = models.ForeignKey(Host,on_delete=models.PROTECT)
     type = models.CharField('类别',max_length=200)
-    shard = models.CharField('分片',max_length=200,blank=True)
+    shard = models.CharField('分片',max_length=200, blank=True)
     role = models.CharField('角色', max_length=200, blank=True)
     port = models.IntegerField('端口号',blank=True)
     created = models.DateTimeField('创建时间', default=timezone.now)
@@ -205,7 +205,7 @@ class ProjectSQLServer(models.Model):
 
 # Redis
 class ProjectRedis(models.Model):
-    instance = models.ForeignKey(RedisInstance, on_delete=models.PROTECT)
+    instance = models.ForeignKey(RedisInstance, on_delete=models.PROTECT, blank=True)
     env = models.CharField('环境', max_length=200)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     created = models.DateTimeField('创建时间', default=timezone.now)
@@ -272,7 +272,7 @@ class ProjectPython(models.Model):
 
 # Rabbitmq
 class ProjectRabbitmq(models.Model):
-    instance = models.ForeignKey(RabbitmqInstance, on_delete=models.PROTECT)
+    instance = models.ForeignKey(RabbitmqInstance, on_delete=models.PROTECT, blank=True)
     env = models.CharField('环境', max_length=200)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     created = models.DateTimeField('创建时间', default=timezone.now)
@@ -280,7 +280,7 @@ class ProjectRabbitmq(models.Model):
 
 # Activemq
 class ProjectActivemq(models.Model):
-    instance = models.ForeignKey(ActivemqInstance, on_delete=models.PROTECT)
+    instance = models.ForeignKey(ActivemqInstance, on_delete=models.PROTECT, blank=True)
     env = models.CharField('环境', max_length=200)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     created = models.DateTimeField('创建时间', default=timezone.now)
@@ -300,7 +300,7 @@ class ProjectKafka(models.Model):
 
 # Zookeeper
 class ProjectZookeeper(models.Model):
-    instance = models.ForeignKey(ZookeeperInstance, on_delete=models.PROTECT)
+    instance = models.ForeignKey(ZookeeperInstance, on_delete=models.PROTECT, blank=True)
     env = models.CharField('环境', max_length=200)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     created = models.DateTimeField('创建时间', default=timezone.now)
