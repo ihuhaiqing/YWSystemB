@@ -20,6 +20,42 @@ class EnvSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+# ------------------------------------------ 实例 ----------------------------------------------
+# MySQL 实例
+class MySQLInstanceSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = MySQLInstance
+        fields = '__all__'
+
+
+# Redis 实例
+class RedisInstanceSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = RedisInstance
+        fields = '__all__'
+
+
+# Zookeeper 实例
+class ZookeeperInstanceSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = ZookeeperInstance
+        fields = '__all__'
+
+
+# Activemq 实例
+class ActivemqInstanceSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = ActivemqInstance
+        fields = '__all__'
+
+
+# Rabbitmq 实例
+class RabbitmqInstanceSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = RabbitmqInstance
+        fields = '__all__'
+
+
 # ------------------------------------------ 资源管理 ----------------------------------------------
 class HostSerializer(serializers.ModelSerializer):
     class Meta:

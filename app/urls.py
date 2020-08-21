@@ -40,6 +40,11 @@ router.register(r'getProjectPython', GetProjectPythonViewSet)
 router.register(r'projectKafka', ProjectKafkaViewSet)
 router.register(r'projectZookeeper', ProjectZookeeperViewSet)
 router.register(r'projectSQLServer', ProjectSQLServerViewSet)
+router.register(r'mysqlInstance', MySQLInstanceViewSet)
+router.register(r'redisInstance', RedisInstanceViewSet)
+router.register(r'zookeeperInstance', ZookeeperInstanceViewSet)
+router.register(r'activemqInstance', ActivemqInstanceViewSet)
+router.register(r'rabbitmqInstance', RabbitmqInstanceViewSet)
 
 
 urlpatterns = [
