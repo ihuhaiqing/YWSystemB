@@ -48,7 +48,7 @@ router.register(r'getProjectActivemq', GetProjectActivemqViewSet)
 router.register(r'projectKafka', ProjectKafkaViewSet)
 router.register(r'projectZookeeper', ProjectZookeeperViewSet)
 router.register(r'getProjectZookeeper', GetProjectZookeeperViewSet)
-
+# 实例
 router.register(r'mysqlInstance', MySQLInstanceViewSet)
 router.register(r'redisInstance', RedisInstanceViewSet)
 router.register(r'zookeeperInstance', ZookeeperInstanceViewSet)
