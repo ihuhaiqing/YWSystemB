@@ -111,7 +111,7 @@ docker exec ywsystem_django_1 sh -c 'python3.7 manage.py migrate'
 可以使用的组成系统的模块
 
 ```
-activemq jar nginx python tomcat apache kafka oracle rabbitmq war dotnet mongodb php redis zookeeper general mysql ProjectList sqlserver iis
+activemq jar nginx python tomcat apache kafka oracle rabbitmq war dotnet mongodb php redis zookeeper general mysql ProjectList sqlserver iis other
 ```
 
 提取 django 静态文件
