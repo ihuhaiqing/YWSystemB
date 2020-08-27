@@ -132,6 +132,7 @@ class Project(models.Model):
     name = models.CharField('项目名称', max_length=200, unique=True)
     software = models.ManyToManyField(Software)
     env = models.ManyToManyField(Env)
+    sort = models.CharField('类别', max_length=200, default='other')
 
     def __str__(self):
         return self.name
