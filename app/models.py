@@ -18,6 +18,10 @@ class Env(models.Model):
     name_cn = models.CharField('中文名', max_length=200, unique=True)
     name_en = models.CharField('英文名', max_length=200, unique=True)
 
+    class Meta:
+        verbose_name = '环境'
+        verbose_name_plural = '环境'
+
     def __str__(self):
         return self.name_cn
 
@@ -25,6 +29,10 @@ class Env(models.Model):
 # 软件
 class Software(models.Model):
     name = models.CharField('软件名称', max_length=200,unique=True)
+
+    class Meta:
+        verbose_name = '软件语言'
+        verbose_name_plural = '软件语言'
 
     def __str__(self):
         return self.name
@@ -133,6 +141,10 @@ class Project(models.Model):
     software = models.ManyToManyField(Software)
     env = models.ManyToManyField(Env)
     sort = models.CharField('类别', max_length=200, default='other')
+
+    class Meta:
+        verbose_name = '项目'
+        verbose_name_plural = '项目'
 
     def __str__(self):
         return self.name
