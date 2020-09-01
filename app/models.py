@@ -98,6 +98,7 @@ class ActivemqInstance(models.Model):
 class RabbitmqInstance(models.Model):
     inside_addr = models.CharField('内网地址', max_length=200)
     outside_addr = models.CharField('外网地址', max_length=200, blank=True)
+    web_addr = models.CharField('Web 地址', max_length=200, blank=True)
     dir = models.CharField('路径', max_length=200, blank=True)
     version = models.CharField('版本号', max_length=200)
     manager = models.CharField('管理员', max_length=200)
@@ -290,6 +291,8 @@ class ProjectRabbitmq(models.Model):
     instance = models.ForeignKey(RabbitmqInstance, on_delete=models.PROTECT, blank=True)
     env = models.CharField('环境', max_length=200)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    username = models.CharField('用户名', max_length=200, blank=True)
+    password = models.CharField('密码', max_length=200, blank=True)
     created = models.DateTimeField('创建时间', default=timezone.now)
 
 
