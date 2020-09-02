@@ -40,7 +40,7 @@ class SoftwareViewSet(viewsets.ModelViewSet):
 
 # 环境
 class EnvViewSet(viewsets.ModelViewSet):
-    queryset = Env.objects.all()
+    queryset = Env.objects.all().order_by('name_cn')
     serializer_class = EnvSerializer
 
 
