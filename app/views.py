@@ -232,11 +232,12 @@ class GetProjectViewSet(CheckPermViewSet):
     def list(self, request, *args, **kwargs):
         page_size = request.GET.get('limit')
         sort = request.GET.get('sort')
+        name = request.GET.get('name')
         if int(page_size) == 10000:
             PageNumberPagination.page_size = None
         else:
             PageNumberPagination.page_size = page_size
-        objects = Project.objects.filter(sort__contains=sort)
+        objects = Project.objects.filter(sort__contains=sort, name__contains=name)
         queryset = get_objects_for_user(request.user, 'app.view_%s' % self.basename, objects)
         page = self.paginate_queryset(queryset)
 
