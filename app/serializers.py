@@ -304,3 +304,11 @@ class GetProjectZookeeperSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectZookeeper
         fields = '__all__'
+
+
+# Project Codeaddr
+class ProjectCodeaddrSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectCodeaddr
+        fields = '__all__'
+

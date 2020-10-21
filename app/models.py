@@ -142,6 +142,7 @@ class Project(models.Model):
     software = models.ManyToManyField(Software)
     env = models.ManyToManyField(Env)
     sort = models.CharField('类别', max_length=200, default='other')
+    status = models.CharField('状态', max_length=200, default='使用')
 
     class Meta:
         verbose_name = '项目'
@@ -322,6 +323,15 @@ class ProjectKafka(models.Model):
 class ProjectZookeeper(models.Model):
     instance = models.ForeignKey(ZookeeperInstance, on_delete=models.PROTECT, blank=True)
     env = models.CharField('环境', max_length=200)
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    created = models.DateTimeField('创建时间', default=timezone.now)
+
+
+# Codeaddr
+class ProjectCodeaddr(models.Model):
+    name = models.CharField('名称', max_length=200)
+    type = models.CharField('类别', max_length=200)
+    addr = models.CharField('地址', max_length=200)
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     created = models.DateTimeField('创建时间', default=timezone.now)
 

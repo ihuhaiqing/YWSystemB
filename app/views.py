@@ -528,3 +528,9 @@ class GetProjectZookeeperViewSet(viewsets.ModelViewSet):
         queryset = ProjectZookeeper.objects.filter(env=env, project=project)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+
+# Project Codeaddr
+class ProjectCodeaddrViewSet(viewsets.ModelViewSet):
+    queryset = ProjectCodeaddr.objects.all()
+    serializer_class = ProjectCodeaddrSerializer
