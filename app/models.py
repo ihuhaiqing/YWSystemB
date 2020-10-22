@@ -28,11 +28,11 @@ class Env(models.Model):
 
 # 软件
 class Software(models.Model):
-    name = models.CharField('软件名称', max_length=200,unique=True)
+    name = models.CharField('名称', max_length=200, unique=True)
 
     class Meta:
-        verbose_name = '软件语言'
-        verbose_name_plural = '软件语言'
+        verbose_name = '项目组件'
+        verbose_name_plural = '项目组件'
 
     def __str__(self):
         return self.name
