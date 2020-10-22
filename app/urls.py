@@ -41,6 +41,7 @@ router.register(r'getProjectPHP', GetProjectPHPViewSet)
 router.register(r'projectPython', ProjectPythonViewSet)
 router.register(r'getProjectPython', GetProjectPythonViewSet)
 router.register(r'projectCodeaddr', ProjectCodeaddrViewSet)
+router.register(r'getProjectCodeaddr', ProjectCodeaddrViewSet)
 
 router.register(r'projectRabbitmq', ProjectRabbitmqViewSet)
 router.register(r'getProjectRabbitmq', GetProjectRabbitmqViewSet)
