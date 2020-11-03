@@ -1,0 +1,8 @@
+django==2.2.11
+mysqlclient==1.4.4
+djangorestframework==3.11.0
+django-oauth-toolkit==1.3.0
+paramiko==2.6.0
+channels==2.4.0
+webssh==1.5.2
+django-guardian==2.1.0
