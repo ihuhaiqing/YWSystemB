@@ -18,7 +18,7 @@ class AccountViewSet(CheckPermViewSet):
 
     def list(self, request, *args, **kwargs):
         use = request.GET.get('use')
-        objects = Account.objects.filter(use__contains=use)
+        objects = Account.objects.filter(use__icontains=use)
         queryset = get_objects_for_user(request.user, 'app.view_%s' % self.basename, objects)
 
         PageNumberPagination.page_size = request.GET.get('limit')
