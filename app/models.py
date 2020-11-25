@@ -5,13 +5,15 @@ from django.utils import timezone
 
 # 账号
 class Account(models.Model):
-    username = models.CharField('用户名', max_length=200)
+    use = models.CharField('名称', max_length=255)
+    username = models.CharField('用户名', max_length=200, unique=True)
     password = models.CharField('密码', max_length=200)
     addr = models.CharField('地址', max_length=200, blank=True, null=True)
-    use = models.CharField('用途', max_length=255)
     remark = models.CharField('备注', max_length=255, blank=True)
     created = models.DateTimeField('创建时间', default=timezone.now)
 
+    class Meta:
+        ordering = ['use']
 
 # 环境
 class Env(models.Model):
