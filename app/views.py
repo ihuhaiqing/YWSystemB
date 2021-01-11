@@ -96,7 +96,7 @@ class MySQLInstanceViewSet(CheckPermViewSet):
         else:
             PageNumberPagination.page_size = page_size
         inside_addr = request.GET.get('inside_addr')
-        objects = MySQLInstance.objects.filter(inside_addr__contains=inside_addr).order_by('cluster', 'inside_addr')
+        objects = MySQLInstance.objects.filter(inside_addr__contains=inside_addr).order_by('inside_addr')
         queryset = get_objects_for_user(request.user, 'app.view_%s' % self.basename, objects)
         page = self.paginate_queryset(queryset)
 
