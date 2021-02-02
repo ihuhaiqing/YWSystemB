@@ -60,6 +60,8 @@ router.register(r'rabbitmqInstance', RabbitmqInstanceViewSet)
 router.register(r'tasks', TaskViewSet)
 router.register(r'accounts', AccountViewSet)
 
+router.register(r'menu', L1MenuViewSet)
+
 urlpatterns = [
     path('', include(router.urls)),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),

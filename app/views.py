@@ -541,3 +541,10 @@ class ProjectCodeaddrViewSet(viewsets.ModelViewSet):
         queryset = ProjectCodeaddr.objects.filter(project=project)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+
+# 一级菜单
+class L1MenuViewSet(viewsets.ModelViewSet):
+    queryset = L1Menu.objects.all()
+    serializer_class = L1MenuSerializer
+

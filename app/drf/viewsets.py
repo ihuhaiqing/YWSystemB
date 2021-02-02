@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from guardian.shortcuts import get_objects_for_user, assign_perm
 from django.contrib.auth.models import Group
 
+
 class CheckPermViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         mdl = self.get_serializer_class().Meta.model
