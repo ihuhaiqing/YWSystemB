@@ -1,6 +1,8 @@
 from django.urls import path, include
 from rest_framework import routers
-from app.views import *
+from app.views.views import *
+from app.views.instance import *
+from app.views.project import *
 from app.drf.views.auth import *
 from app.drf.views.task import TaskViewSet
 
@@ -60,15 +62,17 @@ router.register(r'rabbitmqInstance', RabbitmqInstanceViewSet)
 router.register(r'tasks', TaskViewSet)
 router.register(r'accounts', AccountViewSet)
 
-router.register(r'menu', L1MenuViewSet)
+router.register(r'getL1Menu', L1MenuViewSet)
+router.register(r'getL2Menu', L2MenuViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    path('changeMyPassword/',UserPassword.as_view()),
+    path('changeMyPassword/', UserPassword.as_view()),
     path('getGroupObjectPerms/', GetGroupObjectPermsView.as_view()),
     path('setGroupObjectPerms/', SetGroupObjectPermsView.as_view()),
     path('getGroupPerms/', GetGroupPermsView.as_view()),
+    path('getGroupL2menu/', GetGroupL2menuView.as_view()),
     path('getDashboardData/', GetDashboardDataView.as_view()),
     path('getUserInfo/', GetUserInfoView.as_view())
 ]

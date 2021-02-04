@@ -24,6 +24,7 @@ class UserViewSet(CheckPermViewSet):
         user = request.user
         user_groups = Group.objects.filter(user=user)
         if user.has_perm('app.add_%s' % self.basename):
+            print(serializer)
             self.perform_create(serializer)
             if not user.is_superuser:
                 mdl = self.get_serializer_class().Meta.model
@@ -170,13 +171,20 @@ class SetGroupObjectPermsView(APIView):
         group = Group.objects.get(name=groupname)
         content_type_id = content_type.id
         group_id = group.id
-        for i,object in enumerate(objects):
+        for i, object in enumerate(objects):
             object_pk = int(object['id'])
-            e_perms = GroupObjectPermission.objects.filter(content_type_id=content_type_id,object_pk=object_pk,group_id=group_id)
+            # 已存在的权限
+            e_perms = GroupObjectPermission.objects.filter(content_type_id=content_type_id,
+                                                           object_pk=object_pk,
+                                                           group_id=group_id)
+            # 删除已存在的权限
             e_perms.delete()
             perms = object['perms']
             for permission_id in perms:
-                gop = GroupObjectPermission(content_type_id=content_type_id,object_pk=object_pk,group_id=group_id,permission_id=permission_id)
+                gop = GroupObjectPermission(content_type_id=content_type_id,
+                                            object_pk=object_pk,
+                                            group_id=group_id,
+                                            permission_id=permission_id)
                 gop.save()
         return Response(status=status.HTTP_201_CREATED)
 
@@ -192,28 +200,53 @@ class GetGroupPermsView(APIView):
         results = []
         for content_type in content_types:
             # 获取模型对象
-            objects = queryset.filter(content_type_id =content_type['content_type'])
+            objects = queryset.filter(content_type_id = content_type['content_type'])
             content_objects = []
             for object in objects:
                 content_objects.append(object.content_object)
-            content_objects=list(set(content_objects))
+            content_objects = list(set(content_objects))
             group_objects = []
             model = ContentType.objects.get(pk=content_type['content_type']).model
             for content_object in content_objects:
                 if content_object:
-                    perms = objects.filter(object_pk = content_object.id).values('permission_id')
+                    perms = objects.filter(object_pk=content_object.id).values('permission_id')
                     perm_dict = []
                     for perm in perms:
                         perm_dict.append(perm['permission_id'])
                     if model == 'host':
                         group_objects.append({'object': content_object.ip, 'perms': perm_dict})
+                    elif model == 'mysqlinstance':
+                        group_objects.append({'object': content_object.inside_addr, 'perms': perm_dict})
+                    elif model == 'activemqinstance':
+                        group_objects.append({'object': content_object.inside_addr, 'perms': perm_dict})
+                    elif model == 'rabbitmqinstance':
+                        group_objects.append({'object': content_object.inside_addr, 'perms': perm_dict})
+                    elif model == 'redisinstance':
+                        group_objects.append({'object': content_object.inside_addr, 'perms': perm_dict})
+                    elif model == 'zookeeperinstance':
+                        group_objects.append({'object': content_object.inside_addr, 'perms': perm_dict})
+                    elif model == 'l2menu':
+                        print('l2menu 不需要设置权限')
                     else:
                         group_objects.append({'object': content_object.name, 'perms': perm_dict})
-            results.append({'model':model , 'group_objects': group_objects})
+            results.append({'model': model, 'group_objects': group_objects})
         return Response(results)
 
+
+class GetGroupL2menuView(APIView):
+    def get(self, request):
+        groupname = request.GET.get('groupname')
+        group = Group.objects.get(name=groupname)
+        # 查询组的模型 l2menu 查看权限所有记录
+        queryset = GroupObjectPermission.objects.filter(group=group, permission=176).values('object_pk')
+        results = []
+        for obj in queryset:
+            results.append(int(obj['object_pk']))
+        return Response(results)
+
+
 class GetUserInfoView(APIView):
-    def get(self,request):
+    def get(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
 
