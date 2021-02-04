@@ -1,0 +1,12 @@
+INSERT INTO `app_l2menu`(`id`, `name`, `path`, `component`, `title`, `parent_id`, `order`) VALUES (4, 'Host', 'host', '/resource/host', '主机', 3, 1);
+INSERT INTO `app_l2menu`(`id`, `name`, `path`, `component`, `title`, `parent_id`, `order`) VALUES (5, 'MySQLInstance', 'mysqlInstance', '/resource/instance/MySQLInstance', 'MySQL 实例', 3, 3);
+INSERT INTO `app_l2menu`(`id`, `name`, `path`, `component`, `title`, `parent_id`, `order`) VALUES (6, 'RedisInstance', 'redisInstance', '/resource/instance/RedisInstance', 'Redis 实例', 3, 5);
+INSERT INTO `app_l2menu`(`id`, `name`, `path`, `component`, `title`, `parent_id`, `order`) VALUES (7, 'ZookeeperInstance', 'zookeeperInstance', '/resource/instance/ZookeeperInstance', 'Zookeeper 实例', 3, 11);
+INSERT INTO `app_l2menu`(`id`, `name`, `path`, `component`, `title`, `parent_id`, `order`) VALUES (8, 'activemqInstance', 'activemqInstance', '/resource/instance/ActivemqInstance', 'Activemq 实例', 3, 7);
+INSERT INTO `app_l2menu`(`id`, `name`, `path`, `component`, `title`, `parent_id`, `order`) VALUES (9, 'RabbitmqInstance', 'rabbitmqInstance', '/resource/instance/RabbitmqInstance', 'Rabbitmq 实例', 3, 9);
+INSERT INTO `app_l2menu`(`id`, `name`, `path`, `component`, `title`, `parent_id`, `order`) VALUES (10, 'Project', 'index', '/resource/project', '项目管理', 4, 41);
+INSERT INTO `app_l2menu`(`id`, `name`, `path`, `component`, `title`, `parent_id`, `order`) VALUES (11, 'User', 'user', '/auth-permission/user', '系统用户', 5, 51);
+INSERT INTO `app_l2menu`(`id`, `name`, `path`, `component`, `title`, `parent_id`, `order`) VALUES (12, 'Group', 'group', '/auth-permission/group', '用户组', 5, 52);
+INSERT INTO `app_l2menu`(`id`, `name`, `path`, `component`, `title`, `parent_id`, `order`) VALUES (13, 'Task', 'task', '/task-center/task', '任务', 6, 61);
+INSERT INTO `app_l2menu`(`id`, `name`, `path`, `component`, `title`, `parent_id`, `order`) VALUES (14, 'ExecTask', 'ExecTask', '/task-center/ExecTask', '执行任务', 6, 62);
+INSERT INTO `app_l2menu`(`id`, `name`, `path`, `component`, `title`, `parent_id`, `order`) VALUES (15, 'Software', 'software', '/account/index', '账号管理', 7, 71);
