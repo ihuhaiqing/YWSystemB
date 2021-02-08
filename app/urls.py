@@ -74,5 +74,5 @@ urlpatterns = [
     path('getGroupPerms/', GetGroupPermsView.as_view()),
     path('getGroupL2menu/', GetGroupL2menuView.as_view()),
     path('getDashboardData/', GetDashboardDataView.as_view()),
-    path('getUserInfo/', GetUserInfoView.as_view())
+    path('getUserInfo/', GetUserInfoView.as_view()),
 ]
