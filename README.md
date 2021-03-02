@@ -166,3 +166,41 @@ INSERT INTO `app_l2menu`(`id`, `name`, `path`, `component`, `title`, `parent_id`
 INSERT INTO `app_l2menu`(`id`, `name`, `path`, `component`, `title`, `parent_id`, `order`) VALUES (15, 'Software', 'software', '/account/index', '账号管理', 7, 71);
 ```
 
+#### Nginx 配置
+
+```
+server {
+    listen      80;
+    server_name localhost; 
+    charset     utf-8;
+
+    location / {
+        root /usr/share/nginx/html;
+    }
+
+    location /djstatic {
+        root /YWSystemB;
+    }
+
+    location /api {
+        proxy_pass    http://127.0.0.1:8000;
+        keepalive_timeout  600;
+        proxy_read_timeout 600;
+        proxy_redirect off;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+
+    location /admin {
+        proxy_pass    http://127.0.0.1:8000;
+        keepalive_timeout  600;
+        proxy_read_timeout 600;
+        proxy_redirect off;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+```
+

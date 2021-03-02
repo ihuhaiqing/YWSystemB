@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User, Group, ContentType
-from rest_framework import viewsets,status
+from rest_framework import viewsets, status
 from app.drf.serializers.auth import UserSerializer, GetUserSerializer,GroupSerializer, GetGroupSerializer, ContentTypeSerializer
 from rest_framework.response import Response
-from django.contrib.auth.hashers import make_password,check_password
+from django.contrib.auth.hashers import make_password, check_password
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView
 from app.drf.viewsets import CheckPermViewSet
@@ -24,7 +24,6 @@ class UserViewSet(CheckPermViewSet):
         user = request.user
         user_groups = Group.objects.filter(user=user)
         if user.has_perm('app.add_%s' % self.basename):
-            print(serializer)
             self.perform_create(serializer)
             if not user.is_superuser:
                 mdl = self.get_serializer_class().Meta.model
