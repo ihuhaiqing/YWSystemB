@@ -225,7 +225,7 @@ class GetGroupPermsView(APIView):
                     elif model == 'zookeeperinstance':
                         group_objects.append({'object': content_object.inside_addr, 'perms': perm_dict})
                     elif model == 'l2menu':
-                        print('l2menu 不需要设置权限')
+                        pass
                     else:
                         group_objects.append({'object': content_object.name, 'perms': perm_dict})
             results.append({'model': model, 'group_objects': group_objects})
