@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import ContentType
-# Create your models here.
 
 
 # 一级菜单
