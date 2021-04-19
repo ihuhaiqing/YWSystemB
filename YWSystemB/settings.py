@@ -12,9 +12,15 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from channels.routing import ProtocolTypeRouter
+import environ
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+env = environ.Env()
+env_file = env.str('ENV_FILE_YWSYSTEMB')
+env.read_env(env_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -78,15 +84,29 @@ TEMPLATES = [
 WSGI_APPLICATION = 'YWSystemB.wsgi.application'
 ASGI_APPLICATION = 'app.routing.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'OPTIONS': {
+#             'host': '192.168.40.200',
+#             'database': 'YWSystem',
+#             'user': 'root',
+#             'password': 'MySQL5.7'
+#         },
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        'NAME': env('MYSQL_DBNAME'),
+        'USER': env('MYSQL_USER'),
+        'PASSWORD': env('MYSQL_PASSWORD'),
+        'HOST': env('MYSQL_HOST'),
+        'PORT': env('MYSQL_PORT'),
         'OPTIONS': {
-            'host': '192.168.40.200',
-            'database': 'YWSystem',
-            'user': 'root',
-            'password': 'MySQL5.7'
-        },
+            "init_command": "SET foreign_key_checks = 0;",
+        }
     }
 }
 
@@ -120,7 +140,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -150,6 +170,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 CELERY_RESULT_BACKEND = 'django-db'
-CELERY_BROKER_URL = 'redis://192.168.40.159:6379/4'
+# CELERY_BROKER_URL = 'redis://192.168.40.159:6379/4'
+CELERY_BROKER_URL = env('CELERY_BROKER_URL')
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_TIMEZONE = 'Asia/Shanghai'
