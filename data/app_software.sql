@@ -1,0 +1,15 @@
+INSERT INTO `app_software`(`id`, `name`) VALUES (9, 'activemq');
+INSERT INTO `app_software`(`id`, `name`) VALUES (15, 'codeaddr');
+INSERT INTO `app_software`(`id`, `name`) VALUES (10, 'dotnet');
+INSERT INTO `app_software`(`id`, `name`) VALUES (14, 'iis');
+INSERT INTO `app_software`(`id`, `name`) VALUES (7, 'jar');
+INSERT INTO `app_software`(`id`, `name`) VALUES (3, 'mysql');
+INSERT INTO `app_software`(`id`, `name`) VALUES (1, 'nginx');
+INSERT INTO `app_software`(`id`, `name`) VALUES (6, 'other');
+INSERT INTO `app_software`(`id`, `name`) VALUES (5, 'php');
+INSERT INTO `app_software`(`id`, `name`) VALUES (2, 'python');
+INSERT INTO `app_software`(`id`, `name`) VALUES (12, 'rabbitmq');
+INSERT INTO `app_software`(`id`, `name`) VALUES (8, 'redis');
+INSERT INTO `app_software`(`id`, `name`) VALUES (13, 'sqlserver');
+INSERT INTO `app_software`(`id`, `name`) VALUES (4, 'war');
+INSERT INTO `app_software`(`id`, `name`) VALUES (11, 'zookeeper');
