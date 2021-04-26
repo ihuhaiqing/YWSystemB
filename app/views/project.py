@@ -1,10 +1,10 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
-from app.serializers.resource import *
 from rest_framework.pagination import PageNumberPagination
 from guardian.shortcuts import get_objects_for_user
 from app.drf.viewsets import CheckPermViewSet
-from app.models import Project
+from app.models import *
+from app.serializers import *
 
 
 # -------------------------------------------- 项目 --------------------------------------------

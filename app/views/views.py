@@ -1,13 +1,12 @@
 # from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
-from app.serializers.serializers import *
-from app.serializers.resource import *
+from app.serializers import *
 from rest_framework.pagination import PageNumberPagination
 from guardian.shortcuts import get_objects_for_user
 from app.drf.viewsets import CheckPermViewSet
 from rest_framework.views import APIView
-from app.models import Project, Host
+from app.models import *
 # Create your views here.
 
 

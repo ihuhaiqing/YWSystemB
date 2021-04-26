@@ -1,6 +1,7 @@
 from django.contrib import admin
-from app.models import *
+from app.models import L1Menu, L2Menu, Env, Software
 from guardian.admin import GuardedModelAdmin
+
 # Register your models here.
 # class SoftwareProject(GuardedModelAdmin):
 #     list_display = ('name',)
@@ -8,6 +9,7 @@ from guardian.admin import GuardedModelAdmin
 
 class L2MenuAdmin(GuardedModelAdmin):
     list_display = ('title', 'parent')
+
 
 # admin.site.register(Host,HostAdmin)
 admin.site.register(Env)
