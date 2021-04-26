@@ -1,8 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers
-from app.views.views import *
-from app.views.instance import *
-from app.views.project import *
+from app.views import *
 from app.drf.views.auth import *
 from app.drf.views.task import TaskViewSet
 

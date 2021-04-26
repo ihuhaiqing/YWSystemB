@@ -23,3 +23,10 @@ class GetProjectSerializer(serializers.ModelSerializer):
         model = Project
         fields = '__all__'
 
+
+# 用于查询 redis db 所属的项目
+class ProjectForRedisDBSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Project
+        fields = ['name']

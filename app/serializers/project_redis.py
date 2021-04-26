@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from app.models import ProjectRedis
-from .project import GetProjectSerializer
+from .project import ProjectForRedisDBSerializer
 
 
 # 增删改项目 redis
@@ -12,9 +12,8 @@ class ProjectRedisSerializer(serializers.ModelSerializer):
 
 # 查询项目 redis
 class GetProjectRedisSerializer(serializers.ModelSerializer):
-    project = GetProjectSerializer(read_only=True)
+    project = ProjectForRedisDBSerializer(read_only=True)
 
     class Meta:
         model = ProjectRedis
         fields = '__all__'
-
