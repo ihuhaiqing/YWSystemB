@@ -3,6 +3,7 @@ INSERT INTO `app_software`(`id`, `name`) VALUES (15, 'codeaddr');
 INSERT INTO `app_software`(`id`, `name`) VALUES (10, 'dotnet');
 INSERT INTO `app_software`(`id`, `name`) VALUES (14, 'iis');
 INSERT INTO `app_software`(`id`, `name`) VALUES (7, 'jar');
+INSERT INTO `app_software`(`id`, `name`) VALUES (20, 'mongodb');
 INSERT INTO `app_software`(`id`, `name`) VALUES (3, 'mysql');
 INSERT INTO `app_software`(`id`, `name`) VALUES (1, 'nginx');
 INSERT INTO `app_software`(`id`, `name`) VALUES (6, 'other');

@@ -2,15 +2,37 @@ from app.models import *
 from rest_framework import serializers
 
 
+# 软件
 class SoftwareSerializer(serializers.ModelSerializer):
     class Meta:
         model = Software
         fields = '__all__'
 
 
+# 环境
 class EnvSerializer(serializers.ModelSerializer):
     class Meta:
         model = Env
+        fields = '__all__'
+
+
+# 增删改项目
+class ProjectSerializer(serializers.ModelSerializer):
+    software = serializers.PrimaryKeyRelatedField(queryset=Software.objects.all(), many=True)
+    env = serializers.PrimaryKeyRelatedField(queryset=Env.objects.all(), many=True)
+
+    class Meta:
+        model = Project
+        fields = '__all__'
+
+
+# 查询项目
+class GetProjectSerializer(serializers.ModelSerializer):
+    software = SoftwareSerializer(read_only=True, many=True)
+    env = EnvSerializer(many=True)
+
+    class Meta:
+        model = Project
         fields = '__all__'
 
 
@@ -22,8 +44,26 @@ class MySQLInstanceSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+# 增删改项目 redis
+class ProjectRedisSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectRedis
+        fields = '__all__'
+
+
+# 查询项目 redis
+class GetProjectRedisSerializer(serializers.ModelSerializer):
+    project = GetProjectSerializer(read_only=True)
+
+    class Meta:
+        model = ProjectRedis
+        fields = '__all__'
+
+
 # Redis 实例
 class RedisInstanceSerializer(serializers.ModelSerializer):
+    redis_db = GetProjectRedisSerializer(read_only=True, many=True)
+
     class Meta:
         model = RedisInstance
         fields = '__all__'
@@ -57,28 +97,9 @@ class HostSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# Project
-class ProjectSerializer(serializers.ModelSerializer):
-    software = serializers.PrimaryKeyRelatedField(queryset=Software.objects.all(),many=True)
-    env = serializers.PrimaryKeyRelatedField(queryset=Env.objects.all(),many=True)
-
-    class Meta:
-        model = Project
-        fields = '__all__'
-
-
-class GetProjectSerializer(serializers.ModelSerializer):
-    software = SoftwareSerializer(read_only=True,many=True)
-    env = EnvSerializer(many=True)
-
-    class Meta:
-        model = Project
-        fields = '__all__'
-
-
 # Project Web
 class ProjectWebSerializer(serializers.ModelSerializer):
-    host = serializers.PrimaryKeyRelatedField(queryset=Host.objects.all(), write_only=True,many=True)
+    host = serializers.PrimaryKeyRelatedField(queryset=Host.objects.all(), write_only=True, many=True)
 
     class Meta:
         model = ProjectWeb
@@ -151,21 +172,6 @@ class GetProjectOracleSerializer(serializers.ModelSerializer):
 class ProjectSQLServerSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectSQLServer
-        fields = '__all__'
-
-
-# Project Redis
-class ProjectRedisSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProjectRedis
-        fields = '__all__'
-
-
-class GetProjectRedisSerializer(serializers.ModelSerializer):
-    instance = RedisInstanceSerializer(read_only=True, many=False)
-
-    class Meta:
-        model = ProjectRedis
         fields = '__all__'
 
 
