@@ -8,6 +8,8 @@
 
 #### 准备数据库
 
+> 需要修改 YWSystemB/.prod 中数据库连接相关的配置
+
 创建数据库 ywsystem
 
 
