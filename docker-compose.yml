@@ -1,0 +1,18 @@
+version: "3.6"
+
+services:
+  django:
+    image: python:3.8.9
+    entrypoint: ["/ywsystem/entrypoint.sh"]
+    volumes:
+      - /data/ywsystem/YWSystemB:/ywsystem
+    ports:
+      - "2080:8000"
+
+  nginx:
+    image: nginx:1.19.10
+    volumes:
+      - ./nginx-vhost.conf:/etc/nginx/conf.d/nginx-vhost.conf
+      - /data/ywsystem:/ywsystem
+    ports:
+      - "90:90"
